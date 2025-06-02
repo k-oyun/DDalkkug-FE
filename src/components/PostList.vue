@@ -20,8 +20,9 @@
         <div
           v-for="post in posts"
           :key="post.id"
-          class="p-4 bg-gray-800 rounded hover:bg-gray-700 transition"
+          class="p-4 bg-gray-800 rounded hover:bg-gray-700 transition border-2 border-cyan-400 shadow-[0_0_10px_#22d3ee]"
         >
+          <!-- 네온사인 효과 추가 -->
           <router-link :to="`/posts/${post.id}`">
             <p>{{ post.id }}</p>
             <p>제목 : {{ post.title }}</p>
