@@ -9,7 +9,7 @@
       @click="() => router.push('/main')"
       class="z-300 mb-[100px] h-[50px] w-[140px] cursor-pointer rounded-[20px] border border-white bg-white/40 text-[16px] text-white hover:bg-white/50"
     >
-      딸꾹 시작하기
+      START
     </button>
   </div>
 </template>
