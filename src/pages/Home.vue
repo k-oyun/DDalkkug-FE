@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute inset-0 bg-black/30" id="flicker"></div>
+  <div class="absolute inset-0" id="flicker"></div>
   <div
     class="flex h-[100vh] w-[100%] flex-col items-center justify-center"
     id="bg"
@@ -68,7 +68,7 @@ const router = useRouter();
 
 @keyframes flicker {
   0% {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0);
   }
   3% {
     background-color: rgba(0, 0, 0, 0.8);
@@ -85,12 +85,24 @@ const router = useRouter();
   15% {
     background-color: rgba(0, 0, 0, 0.6);
   }
+  18% {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
   20% {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+  23% {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  26% {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  30% {
+    background-color: rgba(0, 0, 0, 0);
   }
   100% {
-    background-color: rgba(0, 0, 0, 0.3);
-  } /* 안정 상태 */
+    background-color: rgba(0, 0, 0, 0);
+  }
 }
 
 #bg {
@@ -100,12 +112,10 @@ const router = useRouter();
 }
 
 #flicker {
-  animation: flicker 4s linear;
+  animation: flicker 4s ease-in-out;
 }
 
 #logo {
-  /* animation: float 3s ease-in-out infinite; */
-
   filter: drop-shadow(0 0 5px #f148fb) drop-shadow(0 0 10px #f148fb)
     drop-shadow(0 0 10px #f148fb);
   animation: logoFlicker 1s infinite;
