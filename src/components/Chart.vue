@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { defineProps, computed } from "vue";
+import { defineProps, computed, onMounted, ref } from "vue";
 import VChart from "vue-echarts";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
@@ -37,6 +37,21 @@ use([
   GridComponent,
   LegendComponent,
 ]);
+
+import useMainApi from "../api/main.js";
+const current = ref(new Date());
+const year = computed(() => current.value.getFullYear());
+const month = computed(() => current.value.getMonth());
+const { monthChartGet, weekChartGet } = useMainApi();
+onMounted(async () => {
+  const res = await monthChartGet(year.value, month.value + 1);
+  console.log(res);
+});
+
+onMounted(async () => {
+  const res = await weekChartGet();
+  console.log(res);
+});
 
 const { option } = defineProps({ option: String });
 const chartWeekOptions = {

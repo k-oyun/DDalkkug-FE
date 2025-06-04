@@ -66,7 +66,8 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import useMainApi from "../api/main.js";
 
 const today = new Date();
 const current = ref(new Date());
@@ -110,6 +111,14 @@ const isToday = (day) => {
     year.value === today.getFullYear()
   );
 };
+
+const { calendarGet } = useMainApi();
+
+onMounted(async () => {
+  const res = await calendarGet(year.value, month.value + 1);
+  console.log(res);
+  console.log(year.value, month.value);
+});
 </script>
 
 <style scoped>
