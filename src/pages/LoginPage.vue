@@ -38,7 +38,7 @@
                   </div>
                 </div>
 
-                <div v-if="mode !== 'find'">
+                <div v-if="mode !== 'find' || step !== 'email'">
                   <div class="flex items-center justify-between px-3">
                     <label
                       for="password"
@@ -137,6 +137,12 @@ const router = useRouter();
 const { login } = useAuthApi();
 
 const mode = computed(() => route.query.mode || "login"); // 기본 모드는 login
+
+// 회원 가입 상태에서의 처리
+// 회원 가입 상태에서 이메일 인증 --> 5분동안 이메일에 대한 인증 받기 --> 인증이 되었으면 비밀번호와 이름 지정
+// 회원 가입 상태에서 비밀번호 입력
+// 회원 가입 상태에서
+const step = ref(() => route.query.step || "email");
 
 const goSign = () => {
   router.push("/login?mode=sign");
