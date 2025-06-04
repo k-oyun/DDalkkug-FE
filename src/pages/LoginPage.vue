@@ -36,6 +36,14 @@
                       />
                     </div>
                   </div>
+
+                  <BaseInput
+                    type="email"
+                    name="email"
+                    autocomplete="email"
+                    placeholder="example@example.com"
+                    v-model="emailValue"
+                  ></BaseInput>
                 </div>
 
                 <div v-if="mode !== 'find' || step !== 'email'">
@@ -128,9 +136,10 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import useAuthApi from "../api/auth.js";
+import BaseInput from "../components/BaseInput.vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -151,6 +160,10 @@ const goFind = () => {
   router.push("/login?mode=find");
 };
 
+const emailValue = ref("");
+watch(emailValue, () => {
+  console.log(emailValue.value);
+});
 const emailInput = ref("");
 const pwdInput = ref("");
 const hadleSubmit = async () => {
@@ -168,95 +181,5 @@ const hadleSubmit = async () => {
 </script>
 
 <style scoped>
-.neon-glow {
-  text-shadow:
-    0 0 5px #f148fb,
-    0 0 10px #f148fb,
-    0 0 20px #f148fb;
-}
-
-.neon-border {
-  border: 2px solid #fff;
-  box-shadow:
-    0 0 5px #f148fb,
-    0 0 10px #f148fb,
-    0 0 15px #f148fb,
-    0 0 20px #f148fb,
-    inset 0 0 10px #f148fb,
-    inset 0 0 20px #f148fb;
-}
-
-.neon-button-border {
-  border: 2px solid #fff;
-  box-shadow:
-    0 0 5px #00f0ff,
-    0 0 10px #00f0ff,
-    0 0 15px #00f0ff,
-    0 0 20px #00f0ff,
-    inset 0 0 10px #00f0ff,
-    inset 0 0 20px #00f0ff;
-}
-
-.neon-border-strong {
-  border: 2px solid #fff;
-  box-shadow:
-    0 0 5px #f148fb,
-    0 0 10px #f148fb,
-    0 0 15px #f148fb,
-    0 0 20px #f148fb,
-    0 0 25px #f148fb,
-    0 0 30px #f148fb,
-    0 0 50px #f148fb,
-    inset 0 0 10px #f148fb,
-    inset 0 0 20px #f148fb;
-}
-
-#logo {
-  /* animation: float 3s ease-in-out infinite; */
-
-  filter: drop-shadow(0 0 5px #f148fb) drop-shadow(0 0 10px #f148fb)
-    drop-shadow(0 0 10px #f148fb);
-  animation: logoFlicker 1s infinite;
-}
-#bg {
-  background-image: url("../assets/background-img.png");
-  background-size: cover;
-  background-position: center;
-}
-
-@keyframes logoFlicker {
-  0% {
-    opacity: 1;
-  }
-  10% {
-    opacity: 0.8;
-  }
-  20% {
-    opacity: 1;
-  }
-  30% {
-    opacity: 0.8;
-  }
-  40% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
-  }
-  60% {
-    opacity: 1;
-  }
-  70% {
-    opacity: 0.8;
-  }
-  80% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 0.9;
-  }
-  100% {
-    opacity: 1;
-  }
-}
+@import "../styles/neon.css";
 </style>
