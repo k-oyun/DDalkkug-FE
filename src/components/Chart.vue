@@ -10,7 +10,9 @@
     onmouseover="this.style.boxShadow='0 0 5px 3px #ff0000, inset 0 0 5px #ff0000, inset 0 0 10px #ff0000'"
     onmouseout="this.style.boxShadow='0 0 5px 3px #00aa00, inset 0 0 5px #00aa00, inset 0 0 10px #00aa00'"
   >
-    <v-chart :option="option === week ? chartWeekOptions : chartMonthOptions" />
+    <v-chart
+      :option="option === 'week' ? chartWeekOptions : chartMonthOptions"
+    />
   </div>
 </template>
 
@@ -38,7 +40,7 @@ use([
 
 const { option } = defineProps({ option: String });
 const chartWeekOptions = {
-  backgroundColor: "#000000", // 배경: 검정
+  // backgroundColor: "#00ff0000",
   title: {
     // text: "네온 차트",
     left: "center",
@@ -77,6 +79,8 @@ const chartWeekOptions = {
     },
   },
   yAxis: {
+    min: 0,
+    max: 20,
     axisLine: { lineStyle: { color: "#39ff14" } },
     splitLine: { lineStyle: { color: "#222" } },
     axisLabel: {
@@ -91,7 +95,7 @@ const chartWeekOptions = {
     {
       name: "총 병수",
       type: "bar",
-      data: [20, 35, 50, 40, 60],
+      data: [20, 5, 20, 0, 30],
       itemStyle: {
         color: {
           type: "linear",
@@ -113,7 +117,7 @@ const chartWeekOptions = {
 };
 
 const chartMonthOptions = {
-  backgroundColor: "#000000", // 배경: 검정
+  backgroundColor: "#000000",
   title: {
     // text: "네온 차트",
     left: "center",
