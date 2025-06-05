@@ -1,6 +1,10 @@
 <template>
+  <!-- 이 최상위 div는 네온 효과를 보장하기 위한 최소 padding을 설정 -->
   <div class="px-3 py-3">
-    <div class="neon-border mt-2 rounded-md p-2">
+    <div
+      class="neon-border mt-2 rounded-md p-2"
+      :style="`--neon-color:${neonColor}`"
+    >
       <input
         v-bind="$attrs"
         class="block w-full rounded-md px-3 py-1.5 text-base text-white outline-0 placeholder:text-gray-400 sm:text-sm/6"
@@ -11,6 +15,18 @@
 </template>
 
 <script setup>
+// ##### 사용 예시 #####
+// <BaseInput
+//     type="email"
+//     name="email"
+//     autocomplete="email"
+//     placeholder="example@example.com"
+//     v-model="emailValue"
+//     neonColor="#f148fb">
+// </BaseInput>
+// 기존의 <input>과 동일하게 사용
+// neonColor를 통해 네온 색상 지정
+
 // Input을 분리하기 위해 필요한 값들
 // 1. v-model을 위한 함수 => v-model(양방향 바인딩)의 생명 범위(scope)는 단일 컴포넌트 내이기 때문에
 //    부모와 자식 관계에서는 직접 연결해줘야 한다. --> 대체로 react에서 자주 구현
@@ -28,6 +44,10 @@
 // 부모 --> 자식 : 값 전달
 defineProps({
   modelValue: String,
+  neonColor: {
+    type: String,
+    default: "#f148fb",
+  },
 });
 
 // 자식 --> 부모 : 이벤트 전달

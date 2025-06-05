@@ -1,12 +1,13 @@
 .neon-border {
+  --neon-color: #f148fb;
   border: 2px solid #fff;
   box-shadow:
-    0 0 5px #f148fb,
-    0 0 10px #f148fb,
-    0 0 15px #f148fb,
-    0 0 20px #f148fb,
-    inset 0 0 10px #f148fb,
-    inset 0 0 20px #f148fb;
+    0 0 5px var(--neon-color),
+    0 0 10px var(--neon-color),
+    0 0 15px var(--neon-color),
+    0 0 20px var(--neon-color),
+    inset 0 0 10px var(--neon-color),
+    inset 0 0 20px var(--neon-color);
 }
 
 .neon-button-border {

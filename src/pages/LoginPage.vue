@@ -43,6 +43,7 @@
                     autocomplete="email"
                     placeholder="example@example.com"
                     v-model="emailValue"
+                    neonColor="#f148fb"
                   ></BaseInput>
                 </div>
 
