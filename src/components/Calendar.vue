@@ -1,6 +1,6 @@
 <template>
   <div
-    class="calendar-container h-[670px] w-[900px] rounded-[15px] border-1 border-[white] bg-black/70 text-white transition-all duration-100 ease-in-out sm:ml-0 sm:w-[300px] md:ml-0 md:w-[800px] xl:ml-[50px] xl:w-[900px] 2xl:ml-[50px] 2xl:h-[676px] 2xl:w-[1000px]"
+    class="calendar-container h-[670px] w-[900px] rounded-[15px] border-1 border-[white] bg-black/70 text-white transition-all duration-100 ease-in-out sm:ml-0 sm:w-[300px] md:ml-0 md:w-[800px] lg:w-[800px] xl:ml-[50px] xl:w-[900px] 2xl:ml-[50px] 2xl:h-[676px] 2xl:w-[1000px]"
     style="
       /* filter: drop-shadow(0 0 20px #fff); */
       box-shadow:
@@ -12,18 +12,22 @@
     onmouseout="this.style.boxShadow='0 0 5px 3px #00aa00, inset 0 0 5px #00aa00, inset 0 0 10px #00aa00'"
   >
     <div
-      class="calendar-header mb-[30px] flex justify-between p-[0.5rem] font-bold"
+      class="calendar-header mb-[30px] flex items-center justify-between p-[0.5rem] pr-[15px] pl-[15px] font-bold"
     >
       <button
         @click="prevMonth"
-        class="cursor-pointer text-2xl hover:scale-130"
+        class="cursor-pointer text-4xl hover:scale-130"
       >
         <
       </button>
-      <span class="text-[25px]" style="">{{ year }} / {{ month + 1 }}</span>
+      <span
+        class="md:text-[25px] lg:text-[25px] xl:text-[25px] 2xl:text-[25px]"
+        style=""
+        >{{ year }} / {{ month + 1 }}</span
+      >
       <button
         @click="nextMonth"
-        class="cursor-pointer text-2xl hover:scale-130"
+        class="cursor-pointer text-4xl hover:scale-130"
       >
         >
       </button>
