@@ -1,7 +1,5 @@
 import axios from "./AxiosInstance";
 
-// const BASE_URL = "https://api.ddalkkug.kro.kr/api/v1/calendar-entries";
-
 const useMainApi = () => {
   const calendarGet = async (year, month) => {
     return await axios.get(

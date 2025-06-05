@@ -10,14 +10,21 @@
     onmouseover="this.style.boxShadow='0 0 5px 3px #ff0000, inset 0 0 5px #ff0000, inset 0 0 10px #ff0000'"
     onmouseout="this.style.boxShadow='0 0 5px 3px #00aa00, inset 0 0 5px #00aa00, inset 0 0 10px #00aa00'"
   >
+    <div
+      v-if="monthData.length === 0"
+      class="flex h-full w-full items-center justify-center text-center text-3xl text-white"
+    >
+      Loading...
+    </div>
     <v-chart
+      v-else
       :option="option === 'week' ? chartWeekOptions : chartMonthOptions"
     />
   </div>
 </template>
 
 <script setup>
-import { defineProps, computed, onMounted, ref } from "vue";
+import { defineProps, computed, onMounted, ref, reactive } from "vue";
 import VChart from "vue-echarts";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
@@ -42,19 +49,27 @@ import useMainApi from "../api/main.js";
 const current = ref(new Date());
 const year = computed(() => current.value.getFullYear());
 const month = computed(() => current.value.getMonth());
+
 const { monthChartGet, weekChartGet } = useMainApi();
+
+const monthData = ref([]);
+const weekData = ref([]);
 onMounted(async () => {
   const res = await monthChartGet(year.value, month.value + 1);
-  console.log(res);
+  // console.log("테스트 출력", res.data.data);
+  monthData.value = res.data.data;
+  // console.log("수신 데이터", monthData.value);
+  // console.log("수신 데이터", monthData.value[0].month);
 });
 
 onMounted(async () => {
   const res = await weekChartGet();
-  console.log(res);
+  weekData.value = res.data.data.dailyExpenses;
+  // console.log("ㅇㄴㅇㄴㅇㄴㅇ", weekData.value);
 });
 
 const { option } = defineProps({ option: String });
-const chartWeekOptions = {
+const chartWeekOptions = computed(() => ({
   // backgroundColor: "#00ff0000",
   title: {
     // text: "네온 차트",
@@ -108,9 +123,15 @@ const chartWeekOptions = {
 
   series: [
     {
-      name: "총 병수",
+      name: "금액",
       type: "bar",
-      data: [20, 5, 20, 0, 30],
+      data: [
+        weekData.value.월요일,
+        weekData.value.화요일,
+        weekData.value.수요일,
+        weekData.value.목요일,
+        weekData.value.금요일,
+      ],
       itemStyle: {
         color: {
           type: "linear",
@@ -129,9 +150,9 @@ const chartWeekOptions = {
       barWidth: "40%",
     },
   ],
-};
+}));
 
-const chartMonthOptions = {
+const chartMonthOptions = computed(() => ({
   backgroundColor: "#000000",
   title: {
     // text: "네온 차트",
@@ -161,7 +182,13 @@ const chartMonthOptions = {
     },
   },
   xAxis: {
-    data: ["Mon", "Tue", "Wed", "Thu", "Fri"],
+    data: [
+      monthData.value[0].month + "월",
+      monthData.value[1].month + "월",
+      monthData.value[2].month + "월",
+      monthData.value[3].month + "월",
+      monthData.value[4].month + "월",
+    ],
     axisLine: { lineStyle: { color: "#39ff14" } },
     axisLabel: {
       color: "#0ff",
@@ -183,9 +210,15 @@ const chartMonthOptions = {
 
   series: [
     {
-      name: "총 병수",
+      name: "금액",
       type: "bar",
-      data: [20, 35, 50, 40, 60],
+      data: [
+        monthData.value[0].totalPrice,
+        monthData.value[1].totalPrice,
+        monthData.value[2].totalPrice,
+        monthData.value[3].totalPrice,
+        monthData.value[4].totalPrice,
+      ],
       itemStyle: {
         color: {
           type: "linear",
@@ -204,5 +237,5 @@ const chartMonthOptions = {
       barWidth: "40%",
     },
   ],
-};
+}));
 </script>
