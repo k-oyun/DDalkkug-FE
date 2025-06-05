@@ -1,8 +1,11 @@
 <template>
-  <div class="flex h-[100vh] w-[100%] items-center justify-center" id="bg">
+  <div
+    class="flex h-[100vh] w-[100%] min-w-[100%] items-center justify-center"
+    id="bg"
+  >
     <Calendar />
     <div
-      class="ml-[50px] flex h-[670px] w-[450px] flex-col items-center text-white 2xl:h-[676px]"
+      class="ml-[50px] hidden h-[670px] w-[450px] min-w-[450px] flex-col items-center text-white sm:hidden md:hidden lg:hidden xl:flex 2xl:flex 2xl:h-[676px]"
     >
       <div
         class="mt-[3px] flex h-[150px] w-[400px] cursor-pointer flex-col rounded-[10px] border-1 bg-black/70 p-10 transition-all duration-500 ease-in-out"
@@ -46,6 +49,15 @@
 <script setup>
 import Calendar from "../components/Calendar.vue";
 import Chart from "../components/Chart.vue";
+import useMainApi from "../api/main.js";
+import { onMounted } from "vue";
+
+const { PriceGet } = useMainApi();
+
+onMounted(async () => {
+  const res = await PriceGet();
+  console.log(res);
+});
 </script>
 
 <style scoped>

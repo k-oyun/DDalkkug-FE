@@ -1,12 +1,3 @@
 * {
   overflow: hidden;
 }
-
-@font-face {
-  font-family: "Neon";
-  src:
-    url("/Neoneon.otf") format("woff2"),
-    url("/Neoneon.otf") format("woff"),
-    url("/Neoneon.otf") format("opentype");
-  font-display: swap;
-}

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="calendar-container ml-[50px] h-[670px] w-[900px] rounded-[15px] border-1 border-[white] bg-black/70 text-white transition-all duration-100 ease-in-out 2xl:h-[676px] 2xl:w-[1000px]"
+    class="calendar-container h-[670px] w-[900px] rounded-[15px] border-1 border-[white] bg-black/70 text-white transition-all duration-100 ease-in-out sm:ml-0 sm:w-[300px] md:ml-0 md:w-[800px] xl:ml-[50px] xl:w-[900px] 2xl:ml-[50px] 2xl:h-[676px] 2xl:w-[1000px]"
     style="
       /* filter: drop-shadow(0 0 20px #fff); */
       box-shadow:
@@ -28,7 +28,7 @@
         >
       </button>
     </div>
-    <div class="calendar-grid">
+    <div class="calendar-grid w-[100%]">
       <div
         class="2xl: mb-[10px] text-[20px] font-bold"
         v-for="day in days"
