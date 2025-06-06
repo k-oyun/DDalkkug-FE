@@ -1,5 +1,5 @@
 <template>
-  <form class="space-y-6" @submit.prevent="">
+  <form class="space-y-6" @submit.prevent="$emit('event:submit', 'login')">
     <div>
       <label for="email" class="block pl-3 text-lg/6 font-medium text-white"
         >이메일</label
@@ -37,7 +37,7 @@
       <button
         type="submit"
         class="neon-border flex w-full justify-center rounded-md px-3 py-3 text-lg font-extrabold text-white shadow-xs"
-        :style="`--neon-color:${neonColor}`"
+        :style="`--neon-color:${buttonColor}`"
       >
         로그인
       </button>
@@ -58,14 +58,16 @@
 </template>
 
 <script setup>
-import BaseInput from "../BaseInput.vue";
+import BaseInput from "@/components/BaseInput.vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
 
-const neonColor = "#00f0ff";
+const buttonColor = "#00f0ff";
+
+const emit = defineEmits(["event:submit"]);
 </script>
 
 <style scoped>
-@import "../../styles/neon.css";
+@import "@/styles/neon.css";
 </style>

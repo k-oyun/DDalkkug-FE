@@ -26,10 +26,12 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import useAuthApi from "../api/auth.js";
+import { useAccountStore } from "@/stores/Account.js";
 
+const accoutStore = useAccountStore();
 const route = useRoute();
 const { login } = useAuthApi();
 
@@ -43,7 +45,7 @@ const mode = computed(() => route.query.mode || "login"); // 기본 모드는 lo
 const emailInput = ref("");
 const pwdInput = ref("");
 const hadleSubmit = async () => {
-  switch (mode.value) {
+  switch (accoutModeStore.mode) {
     case "login":
       {
         const res = await login(emailInput.value, pwdInput.value);

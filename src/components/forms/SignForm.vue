@@ -1,5 +1,5 @@
 <template>
-  <form class="space-y-6" @submit.prevent="">
+  <form class="space-y-6" @submit.prevent="$emit('event:submit', 'sign')">
     <div>
       <label for="email" class="block pl-3 text-lg/6 font-medium text-white"
         >이메일</label
@@ -29,11 +29,13 @@
 </template>
 
 <script setup>
-import BaseInput from "../BaseInput.vue";
+import BaseInput from "@/components/BaseInput.vue";
 
 const neonColor = "#00f0ff";
+
+const emit = defineEmits(["event:submit"]);
 </script>
 
 <style scoped>
-@import "../../styles/neon.css";
+@import "@/styles/neon.css";
 </style>
