@@ -3,7 +3,7 @@
   <div class="px-3 py-3">
     <div
       class="neon-border mt-2 rounded-md p-2"
-      :style="`--neon-color:${neonColor}`"
+      :style="{ '--neon-color': neonColor }"
     >
       <input
         v-bind="$attrs"
@@ -15,6 +15,7 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 // ############## 사용 예시 ##############
 // <BaseInput
 //     type="email"
@@ -43,13 +44,15 @@
 // 추후 수정 ---> Vue 3.4 부터 지원되는 defineModel을 사용해서 더욱 간소화
 
 // 부모 --> 자식 : 값 전달
-defineProps({
+const props = defineProps({
   modelValue: String,
   neonColor: {
     type: String,
     default: "#f148fb",
   },
 });
+
+const neonColor = computed(() => props.neonColor);
 
 // 자식 --> 부모 : 이벤트 전달
 // 자식이 부모한테 input이 발생하는 이벤트를 전달
