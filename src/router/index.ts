@@ -24,7 +24,7 @@ const routes: RouteRecordRaw[] = [
     name: "sign",
     component: AccountPage,
     children: [
-      { path: "verify", name: "verify", component: EmailVerifyForm },
+      { path: "verify", name: "sign-verify", component: EmailVerifyForm },
       {
         path: "verified-sign",
         name: "verified-sign",
@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
         beforeEnter: () => {
           const accountStore = useAccountStore();
           if (accountStore == null || accountStore.email == "") {
-            return { name: "verify" };
+            return { name: "sign-verify" };
           }
         },
       },
@@ -43,7 +43,9 @@ const routes: RouteRecordRaw[] = [
     path: "/reset",
     name: "reset",
     component: AccountPage,
-    children: [{ path: "verify", name: "verify", component: EmailVerifyForm }],
+    children: [
+      { path: "verify", name: "reset-verify", component: EmailVerifyForm },
+    ],
   },
   { path: "/mypage", name: "MyPage", component: MyPage },
 ];

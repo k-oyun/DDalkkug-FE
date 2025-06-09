@@ -7,7 +7,7 @@
     >
       <input
         v-bind="$attrs"
-        class="block w-full rounded-md px-3 py-1.5 text-base text-white outline-0 placeholder:text-gray-400 sm:text-sm/6"
+        class="sm:text-md/6 block w-full rounded-md px-3 py-1.5 text-base text-white outline-0 placeholder:text-gray-400"
         @input="$emit('update:modelValue', $event.target.value)"
       />
     </div>

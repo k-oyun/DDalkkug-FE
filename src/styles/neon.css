@@ -10,17 +10,6 @@
     inset 0 0 20px var(--neon-color);
 }
 
-.neon-button-border {
-  border: 2px solid #fff;
-  box-shadow:
-    0 0 5px #00f0ff,
-    0 0 10px #00f0ff,
-    0 0 15px #00f0ff,
-    0 0 20px #00f0ff,
-    inset 0 0 10px #00f0ff,
-    inset 0 0 20px #00f0ff;
-}
-
 #logo {
   /* animation: float 3s ease-in-out infinite; */
 
