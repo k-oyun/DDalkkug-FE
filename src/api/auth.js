@@ -2,7 +2,7 @@ import axios from "./AxiosInstance";
 
 export const useAuthApi = () => {
   const register = async (email, password, name) => {
-    return await axios.post("/api/v1/member/register", {
+    return await axios.post("/member/register", {
       email,
       password,
       name,
@@ -10,23 +10,23 @@ export const useAuthApi = () => {
   };
 
   const login = async (email, password) => {
-    return await axios.post("/api/v1/member/login", { email, password });
+    return await axios.post("/member/login", { email, password });
   };
 
   const sendEmail = async (email) => {
-    return await axios.post("/api/v1/member/verify-email", { email });
+    return await axios.post("/member/verify-email", { email });
   };
 
   const verifyEmail = async (code) => {
-    return await axios.post("/api/v1/member/verification-email-code", { code });
+    return await axios.post("/member/verification-email-code", { code });
   };
 
   const sendResetEmail = async (email) => {
-    return await axios.post("/api/v1/member/reset-password/request", { email });
+    return await axios.post("/member/reset-password/request", { email });
   };
 
   const verifyResetEmail = async (code, newPassword) => {
-    return await axios.post("/api/v1/member/reset-password/confirm", {
+    return await axios.post("/member/reset-password/confirm", {
       code,
       newPassword,
     });

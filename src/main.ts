@@ -8,9 +8,6 @@ import App from "./App.vue";
 import { createPinia } from "pinia";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
-// 라우터 설정
-import router from "./router";
-
 const app = createApp(App);
 
 // Pinia 플러그인 연결
