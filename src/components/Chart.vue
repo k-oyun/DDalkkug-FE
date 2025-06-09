@@ -56,16 +56,12 @@ const monthData = ref([]);
 const weekData = ref([]);
 onMounted(async () => {
   const res = await monthChartGet(year.value, month.value + 1);
-  // console.log("테스트 출력", res.data.data);
   monthData.value = res.data.data;
-  // console.log("수신 데이터", monthData.value);
-  // console.log("수신 데이터", monthData.value[0].month);
 });
 
 onMounted(async () => {
   const res = await weekChartGet();
   weekData.value = res.data.data.dailyExpenses;
-  // console.log("ㅇㄴㅇㄴㅇㄴㅇ", weekData.value);
 });
 
 const { option } = defineProps({ option: String });

@@ -41,27 +41,40 @@
         {{ day }}
       </div>
       <div class="day" v-for="day in blankDays" :key="'blank-' + day"></div>
+
       <div
-        class="flex h-[110px] cursor-pointer justify-around border-1 p-[0.5rem] text-[20px] 2xl:text-[22px]"
+        class="flex h-[110px] cursor-pointer justify-start border-1 p-[0.5rem] text-[20px] 2xl:text-[22px]"
         v-for="day in daysInMonth"
         :key="day"
         :class="{ today: isToday(day), selected: selectedDate === day }"
         @click="selectDate(day)"
       >
         {{ day }}
+
         <div
-          class="h-[100%] w-[80px] text-[14px] hover:scale-110 2xl:text-[18px]"
+          class="mt-[5px] ml-[10px] h-[100px] w-[80px] text-[14px] hover:scale-110 2xl:text-[18px]"
+          v-if="getDayData(day)"
         >
-          <div class="flex items-center">
+          <div
+            class="flex items-center"
+            v-if="getDayData(day).drinkCounts['소주']"
+          >
             <img src="../assets/soju.png" class="h-[30px]" id="soju" />
-            <span class="ml-[1px]" style="text-shadow: none">10병</span>
+            <span class="ml-[1px]" style="text-shadow: none"
+              >{{ getDayData(day).drinkCounts["소주"] }} 병</span
+            >
           </div>
-          <div class="flex items-center">
+          <div
+            class="flex items-center"
+            v-if="getDayData(day).drinkCounts['맥주']"
+          >
             <img src="../assets/beer.png" class="h-[30px]" id="beer" />
-            <span style="text-shadow: none">20병</span>
+            <span style="text-shadow: none"
+              >{{ getDayData(day).drinkCounts["맥주"] }} 병</span
+            >
           </div>
           <span class="text-[14px] 2xl:text-[18px]" style="text-shadow: none"
-            >213210
+            >{{ getDayData(day).totalPrice.toLocaleString() }}
           </span>
         </div>
       </div>
@@ -115,13 +128,17 @@ const isToday = (day) => {
     year.value === today.getFullYear()
   );
 };
-
+const getDayData = (day) => {
+  const formatted = `${year.value}-${String(month.value + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  return calendarData.value.find((item) => item.date === formatted);
+};
 const { calendarGet } = useMainApi();
-
+const calendarData = ref([]);
 onMounted(async () => {
   const res = await calendarGet(year.value, month.value + 1);
   console.log(res);
-  console.log(year.value, month.value);
+  calendarData.value = res.data.data;
+  console.log(getDayData(3));
 });
 </script>
 
