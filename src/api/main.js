@@ -17,8 +17,10 @@ const useMainApi = () => {
     return await axios.get(`/calendar-entries/current-weekdays`);
   };
 
-  const PriceGet = async () => {
-    return await axios.get(`/calendar-entries/week-expense`);
+  const PriceGet = async (year, month, weekOfMonth) => {
+    return await axios.get(
+      `/calendar-entries/week-expense?year=${year}&month=${month}&weekOfMonth=${weekOfMonth}`,
+    );
   };
 
   return { calendarGet, monthChartGet, weekChartGet, PriceGet };

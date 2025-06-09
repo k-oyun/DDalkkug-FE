@@ -26,7 +26,7 @@
               0 0 4px #00aa00,
               0 0 8px #00aa00;
           "
-          >Total Price : 1,020,400
+          >Total Price : {{ Prices.totalPaid }}
         </span>
         <span
           class="mt-[10px] text-[20px]"
@@ -37,7 +37,7 @@
               0 0 8px #ff0000;
           "
         >
-          Week Price : 35,000
+          Week Price : {{ Prices.weekPrice }}
         </span>
       </div>
       <Chart option="week" />
@@ -50,13 +50,18 @@
 import Calendar from "../components/Calendar.vue";
 import Chart from "../components/Chart.vue";
 import useMainApi from "../api/main.js";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 
 const { PriceGet } = useMainApi();
 
+const Prices = {
+  weekPrice: ref(0),
+  totalPaid: ref(0),
+};
 onMounted(async () => {
-  const res = await PriceGet();
-  console.log(res);
+  const res = await PriceGet(2025, 6, 1);
+  Prices.weekPrice.value = res.data.data.weekPrice;
+  Prices.totalPaid.value = res.data.data.totalPaid;
 });
 </script>
 
