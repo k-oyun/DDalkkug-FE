@@ -1,9 +1,9 @@
 <template>
   <form class="space-y-6" @submit.prevent="$emit('event:submit', 'sign')">
     <div>
-      <label for="email" class="block pl-3 text-lg/6 font-medium text-white"
-        >이메일</label
-      >
+      <label for="email" class="block pl-3 text-lg/6 font-medium text-white">
+        이메일
+      </label>
 
       <BaseInput
         v-model="emailInput"
@@ -11,51 +11,55 @@
         :disabled="isSend"
       ></BaseInput>
 
-      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">{{
-        sendMsg
-      }}</label>
+      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">
+        {{ sendMsg }}
+      </label>
     </div>
 
     <div v-if="isSend">
       <label
         for="email"
         class="block pt-1 pl-3 text-lg/6 font-medium text-white"
-        >코드입력</label
       >
+        코드입력
+      </label>
 
       <BaseInput
         v-model="codeInput"
         class="disabled:text-gray-500"
         :disabled="isVerify"
       ></BaseInput>
-      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">{{
-        verifyMsg
-      }}</label>
+      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">
+        {{ verifyMsg }}
+      </label>
     </div>
 
     <div v-if="isSend && isReset">
       <label
         for="email"
         class="block pt-1 pl-3 text-lg/6 font-medium text-white"
-        >새 비밀번호 입력</label
       >
+        새 비밀번호 입력
+      </label>
 
       <BaseInput
         v-model="resetInput"
         class="disabled:text-gray-500"
         :disabled="isVerify"
         :neonColor="resetNeon"
+        type="password"
       ></BaseInput>
-      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">{{
-        resetMsg
-      }}</label>
+      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">
+        {{ resetMsg }}
+      </label>
     </div>
 
     <label
       class="text-md/6 hidden pl-3 font-medium text-white"
       :class="[{ block: isVerify }]"
-      >{{ verifyMsg }}</label
     >
+      {{ verifyMsg }}
+    </label>
 
     <!-- <div v-if="isReg">
       <label for="email" class="block pl-3 text-lg/6 font-medium text-white"
@@ -73,28 +77,21 @@
       <BaseInput></BaseInput>
     </div> -->
 
-    <div class="px-3 py-3">
-      <button
-        type="submit"
-        class="neon-border flex w-full justify-center rounded-md px-3 py-3 text-lg font-extrabold text-white shadow-xs disabled:text-gray-500"
-        :style="`--neon-color:${neonColor}`"
-        @click="handleClick"
-        :disabled="buttonDisable"
-      >
-        {{ buttonMsg }}
-      </button>
-    </div>
+    <BaseButton @click="handleClick" :disabled="buttonDisable">
+      {{ buttonMsg }}
+    </BaseButton>
   </form>
 
   <p
-    class="text-md/5 mt-3 overflow-hidden text-center text-ellipsis whitespace-nowrap text-white"
+    class="text-md/5 mt-3 overflow-hidden text-right text-ellipsis whitespace-nowrap text-white"
   >
     <a
       href="#"
-      class="font-semibold overflow-ellipsis text-white hover:text-indigo-500"
+      class="font-semibold overflow-ellipsis text-white hover:text-gray-500"
       @click="backLogin"
-      >로그인하기</a
     >
+      로그인하기
+    </a>
   </p>
 </template>
 
@@ -102,12 +99,16 @@
 import { computed, ref } from "vue";
 
 import BaseInput from "@/components/BaseInput.vue";
+import BaseButton from "@/components/BaseButton.vue";
 import { useAuthApi } from "@/api/auth.js";
 import { useRouter } from "vue-router";
 import { useAccountStore } from "@/stores/Account.js";
 
 const neonColor = "#00f0ff";
+const hoverColor = "#00b8ff";
 const errorColor = "#ff4d4f";
+
+const currentColor = ref(neonColor);
 
 const emit = defineEmits(["event:submit"]);
 

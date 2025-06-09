@@ -1,9 +1,9 @@
 <template>
   <form class="space-y-6" @submit.prevent="$emit('event:submit', 'login')">
     <div>
-      <label for="email" class="block pl-3 text-lg/6 font-medium text-white"
-        >이메일</label
-      >
+      <label for="email" class="block pl-3 text-lg/6 font-medium text-white">
+        이메일
+      </label>
 
       <BaseInput v-model="emailInput" :neonColor="emailNeon"></BaseInput>
     </div>
@@ -14,12 +14,13 @@
           for="password"
           class="block text-lg/6 font-medium text-white"
           placeholder="1234"
-          >비밀번호</label
         >
+          비밀번호
+        </label>
         <div class="text-sm" @click="goReset">
-          <a href="#" class="font-semibold text-white hover:text-gray-500"
-            >기억이 안나십니까?</a
-          >
+          <a href="#" class="font-semibold text-white hover:text-gray-500">
+            기억이 안나십니까?
+          </a>
         </div>
       </div>
 
@@ -39,16 +40,7 @@
       </label>
     </div>
 
-    <div class="px-3 py-3">
-      <button
-        type="submit"
-        class="neon-border flex w-full justify-center rounded-md px-3 py-3 text-lg font-extrabold text-white shadow-xs"
-        :style="`--neon-color:${buttonColor}`"
-        @click="handleClick"
-      >
-        로그인
-      </button>
-    </div>
+    <BaseButton @click="handleClick">로그인</BaseButton>
   </form>
 
   <p
@@ -57,15 +49,17 @@
     아직도 회원이 아니신가요?
     <a
       href="#"
-      class="font-semibold overflow-ellipsis text-white hover:text-indigo-500"
+      class="font-semibold overflow-ellipsis text-white hover:text-gray-500"
       @click="goReg"
-      >회원가입하기</a
     >
+      회원가입하기
+    </a>
   </p>
 </template>
 
 <script setup>
 import BaseInput from "@/components/BaseInput.vue";
+import BaseButton from "@/components/BaseButton.vue";
 import { useRouter } from "vue-router";
 import { computed, ref } from "vue";
 import { useAuthApi } from "@/api/auth.js";
@@ -122,7 +116,8 @@ const handleClick = async () => {
   if (!validEmail()) return;
   try {
     const res = await login(emailInput.value, pwdInput.value);
-    alert("로그인 성공!");
+    localStorage.setItem("accessToken", res.data.data.accessToken);
+    alert("로그인 성공! accessToken : " + localStorage.getItem("accessToken"));
   } catch (e) {
     validMsg.value = e.response.data.message;
   }

@@ -1,66 +1,59 @@
 <template>
   <form class="space-y-6" @submit.prevent="">
     <div class="flex w-full items-center justify-center">
-      <label class="block text-lg/6 font-medium text-white">{{
-        veryfiedEmail
-      }}</label>
+      <label class="block text-lg/6 font-medium text-white">
+        {{ veryfiedEmail }}
+      </label>
     </div>
 
     <div>
-      <label for="password" class="block pl-3 text-lg/6 font-medium text-white"
-        >비밀번호</label
-      >
+      <label for="password" class="block pl-3 text-lg/6 font-medium text-white">
+        비밀번호
+      </label>
 
       <BaseInput
         type="password"
         :neonColor="pwdNeon"
         v-model="password"
       ></BaseInput>
-      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">{{
-        pwdMsg
-      }}</label>
+      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">
+        {{ pwdMsg }}
+      </label>
     </div>
 
     <div>
-      <label for="password" class="block pl-3 text-lg/6 font-medium text-white"
-        >비밀번호 확인</label
-      >
+      <label for="password" class="block pl-3 text-lg/6 font-medium text-white">
+        비밀번호 확인
+      </label>
 
       <BaseInput
         type="password"
         :neonColor="confirmPwdNeon"
         v-model="confirmPassword"
       ></BaseInput>
-      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">{{
-        confirmPwdMsg
-      }}</label>
+      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">
+        {{ confirmPwdMsg }}
+      </label>
     </div>
 
     <div>
-      <label for="name" class="block pl-3 text-lg/6 font-medium text-white"
-        >닉네임</label
-      >
+      <label for="name" class="block pl-3 text-lg/6 font-medium text-white">
+        닉네임
+      </label>
 
       <BaseInput v-model="name"></BaseInput>
     </div>
 
-    <div class="px-3 py-3">
-      <button
-        type="submit"
-        class="neon-border flex w-full justify-center rounded-md px-3 py-3 text-lg font-extrabold text-white shadow-xs"
-        :style="`--neon-color:${buttonColor}`"
-        @click="handleClick"
-        :disabled="buttonDisable"
-      >
-        회원가입
-      </button>
-    </div>
+    <BaseButton @click="handleClick" :disabled="buttonDisable">
+      회원가입
+    </BaseButton>
   </form>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import BaseInput from "@/components/BaseInput.vue";
+import BaseButton from "@/components/BaseButton.vue";
 import { useRouter } from "vue-router";
 import { useAuthApi } from "@/api/auth.js";
 import { onMounted } from "vue";
