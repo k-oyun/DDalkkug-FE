@@ -3,7 +3,7 @@
   "arrowParens": "always", 
   "bracketSpacing": true, 
   "endOfLine": "lf",
-  "htmlWhitespaceSensitivity": "css",
+  "htmlWhitespaceSensitivity": "ignore",
   "singleAttributePerLine": false,
   "bracketSameLine": false,
   "jsxSingleQuote": false,
