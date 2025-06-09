@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 import Home from "../pages/Home.vue";
+import Main from "../pages/Main.vue";
 import MyPage from "../pages/MyPage.vue";
 import LoginForm from "../components/forms/LoginForm.vue";
 import AccountPage from "../pages/AccountPage.vue";
@@ -12,6 +13,8 @@ import PasswordResetForm from "../components/forms/PasswordResetForm.vue";
 import { useAccountStore } from "@/stores/Account.js";
 
 const routes: RouteRecordRaw[] = [
+  { path: "/", name: "Home", component: Home },
+  { path: "/main", name: "Main", component: Main },
   { path: "/", name: "Home", component: Home },
   {
     path: "/login",

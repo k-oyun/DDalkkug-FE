@@ -1,5 +1,7 @@
 import { createApp } from "vue";
 import "./style.css";
+import "../public/global.css";
+import router from "./router";
 import App from "./App.vue";
 
 // 전역 상태 관리

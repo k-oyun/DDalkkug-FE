@@ -1,14 +1,14 @@
 import axios from "axios";
 
 const AxiosInstance = axios.create({
-  baseURL: "https://api.ddalkkug.kro.kr",
-  // withCredentials: true,
+  baseURL: "https://api.ddalkkug.kro.kr/api/v1",
+  //withCredentials: true,
 });
 
 AxiosInstance.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = token;
   }
   return config;
 });
