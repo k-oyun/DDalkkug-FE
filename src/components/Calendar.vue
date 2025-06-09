@@ -50,33 +50,28 @@
         @click="selectDate(day)"
       >
         {{ day }}
-
-        <div
-          class="mt-[5px] ml-[10px] h-[100px] w-[80px] text-[14px] hover:scale-110 2xl:text-[18px]"
-          v-if="getDayData(day)"
+        <template v-if="dayData = getDayData(day)"
+          ><div
+            class="mt-[5px] ml-[10px] h-[100px] w-[80px] text-[14px] hover:scale-110 2xl:text-[18px]"
+            v-if="dayData"
+          >
+            <div class="flex items-center" v-if="dayData.drinkCounts['소주']">
+              <img src="../assets/soju.png" class="h-[30px]" id="soju" />
+              <span class="ml-[1px]" style="text-shadow: none"
+                >{{ dayData.drinkCounts["소주"] }} 병</span
+              >
+            </div>
+            <div class="flex items-center" v-if="dayData.drinkCounts['맥주']">
+              <img src="../assets/beer.png" class="h-[30px]" id="beer" />
+              <span style="text-shadow: none"
+                >{{ dayData.drinkCounts["맥주"] }} 병</span
+              >
+            </div>
+            <span class="text-[14px] 2xl:text-[18px]" style="text-shadow: none"
+              >{{ dayData.totalPrice.toLocaleString() }}
+            </span>
+          </div></template
         >
-          <div
-            class="flex items-center"
-            v-if="getDayData(day).drinkCounts['소주']"
-          >
-            <img src="../assets/soju.png" class="h-[30px]" id="soju" />
-            <span class="ml-[1px]" style="text-shadow: none"
-              >{{ getDayData(day).drinkCounts["소주"] }} 병</span
-            >
-          </div>
-          <div
-            class="flex items-center"
-            v-if="getDayData(day).drinkCounts['맥주']"
-          >
-            <img src="../assets/beer.png" class="h-[30px]" id="beer" />
-            <span style="text-shadow: none"
-              >{{ getDayData(day).drinkCounts["맥주"] }} 병</span
-            >
-          </div>
-          <span class="text-[14px] 2xl:text-[18px]" style="text-shadow: none"
-            >{{ getDayData(day).totalPrice.toLocaleString() }}
-          </span>
-        </div>
       </div>
     </div>
   </div>
