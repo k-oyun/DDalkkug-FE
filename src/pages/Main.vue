@@ -26,7 +26,7 @@
               0 0 4px #00aa00,
               0 0 8px #00aa00;
           "
-          >Total Price : {{ Prices.totalPaid }}
+          >Total Price : {{ Prices.totalPaid }} 원
         </span>
         <span
           class="mt-[10px] text-[20px]"
@@ -37,7 +37,7 @@
               0 0 8px #ff0000;
           "
         >
-          Week Price : {{ Prices.weekPrice }}
+          Week Price : {{ Prices.weekPrice }} 원
         </span>
       </div>
       <Chart option="week" />
@@ -60,8 +60,8 @@ const Prices = {
 };
 onMounted(async () => {
   const res = await PriceGet(2025, 6, 1);
-  Prices.weekPrice.value = res.data.data.weekPrice;
-  Prices.totalPaid.value = res.data.data.totalPaid;
+  Prices.weekPrice.value = res.data.data.weekPrice.toLocaleString();
+  Prices.totalPaid.value = res.data.data.totalPaid.toLocaleString();
 });
 </script>
 

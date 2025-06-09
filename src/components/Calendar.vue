@@ -34,7 +34,7 @@
     </div>
     <div class="calendar-grid w-[100%]">
       <div
-        class="2xl: mb-[10px] text-[20px] font-bold"
+        class="2xl: mb-[10px] text-[8px] font-bold sm:text-[8px] md:text-[14px] lg:text-[20px] 2xl:text-[20px]"
         v-for="day in days"
         :key="day"
       >
@@ -43,35 +43,55 @@
       <div class="day" v-for="day in blankDays" :key="'blank-' + day"></div>
 
       <div
-        class="flex h-[110px] cursor-pointer justify-start border-1 p-[0.5rem] text-[20px] 2xl:text-[22px]"
+        class="flex h-[70px] cursor-pointer justify-start border p-1 text-[10px] sm:h-[90px] sm:p-2 sm:text-[13px] md:h-[110px] md:text-[22px] lg:text-[22px] xl:text-[22px] 2xl:text-[22px]"
         v-for="day in daysInMonth"
         :key="day"
         :class="{ today: isToday(day), selected: selectedDate === day }"
         @click="selectDate(day)"
       >
         {{ day }}
-        <template v-if="dayData = getDayData(day)"
-          ><div
-            class="mt-[5px] ml-[10px] h-[100px] w-[80px] text-[14px] hover:scale-110 2xl:text-[18px]"
+        <template v-if="dayData = getDayData(day)">
+          <div
+            class="mt-[2px] ml-[2px] w-full text-[8px] hover:scale-110 sm:ml-[10px] sm:w-[80px] sm:text-[10px] md:text-[14px] lg:text-[14px] 2xl:text-[18px]"
             v-if="dayData"
           >
-            <div class="flex items-center" v-if="dayData.drinkCounts['소주']">
-              <img src="../assets/soju.png" class="h-[30px]" id="soju" />
-              <span class="ml-[1px]" style="text-shadow: none"
-                >{{ dayData.drinkCounts["소주"] }} 병</span
+            <div
+              class="flex h-[20px] items-center sm:h-[25px] md:h-[30px]"
+              v-if="dayData.drinkCounts['소주']"
+            >
+              <img
+                src="../assets/soju.png"
+                class="max-h-[11px] sm:max-h-[20px] md:max-h-[28px]"
+                id="soju"
+              />
+              <span
+                class="ml-[2px] text-[7px] sm:text-[10px] md:text-[14px] lg:text-[14px] 2xl:text-[18px]"
+                style="text-shadow: none"
               >
+                {{ dayData.drinkCounts["소주"] }} 병
+              </span>
             </div>
-            <div class="flex items-center" v-if="dayData.drinkCounts['맥주']">
-              <img src="../assets/beer.png" class="h-[30px]" id="beer" />
-              <span style="text-shadow: none"
-                >{{ dayData.drinkCounts["맥주"] }} 병</span
+            <div
+              class="flex h-[20px] items-center sm:h-[25px] md:h-[30px]"
+              v-if="dayData.drinkCounts['맥주']"
+            >
+              <img
+                src="../assets/beer.png"
+                class="max-h-[11px] sm:max-h-[20px] md:max-h-[28px]"
+                id="beer"
+              />
+              <span
+                class="ml-[2px] text-[7px] sm:text-[10px] md:text-[14px] lg:text-[14px] 2xl:text-[18px]"
+                style="text-shadow: none"
               >
+                {{ dayData.drinkCounts["맥주"] }} 병
+              </span>
             </div>
-            <span class="text-[14px] 2xl:text-[18px]" style="text-shadow: none"
-              >{{ dayData.totalPrice.toLocaleString() }}
+            <span style="text-shadow: none">
+              {{ dayData.totalPrice.toLocaleString() }}
             </span>
-          </div></template
-        >
+          </div>
+        </template>
       </div>
     </div>
   </div>
@@ -127,13 +147,13 @@ const getDayData = (day) => {
   const formatted = `${year.value}-${String(month.value + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
   return calendarData.value.find((item) => item.date === formatted);
 };
+
 const { calendarGet } = useMainApi();
 const calendarData = ref([]);
 onMounted(async () => {
   const res = await calendarGet(year.value, month.value + 1);
-  console.log(res);
   calendarData.value = res.data.data;
-  console.log(getDayData(3));
+  console.log(res.data.data);
 });
 </script>
 
