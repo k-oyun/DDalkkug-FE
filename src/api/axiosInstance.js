@@ -17,7 +17,7 @@ AxiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      alert("로그인이 필요합니다."); // SPA 방식으로 이동
+      alert("서버에러"); // SPA 방식으로 이동
     }
     return Promise.reject(error);
   },
