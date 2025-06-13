@@ -33,7 +33,9 @@
         >
       </button>
     </div>
-    <div class="flex h-[30px] w-[100%] justify-end font-bold">
+    <div
+      class="flex h-[30px] w-[100%] justify-end text-[12px] font-bold md:text-[16px] lg:text-[16px]"
+    >
       <select
         style="
           text-shadow:
