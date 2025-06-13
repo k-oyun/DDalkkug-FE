@@ -12,7 +12,7 @@
     onmouseout="this.style.boxShadow='0 0 5px 3px #00aa00, inset 0 0 5px #00aa00, inset 0 0 10px #00aa00'"
   >
     <div
-      class="calendar-header mb-[30px] flex items-center justify-between p-[0.5rem] pr-[15px] pl-[15px] font-bold"
+      class="calendar-header mb-[0px] flex items-center justify-between p-[0.5rem] pr-[15px] pl-[15px] font-bold"
     >
       <button
         @click="prevMonth"
@@ -23,14 +23,37 @@
       <span
         class="md:text-[25px] lg:text-[25px] xl:text-[25px] 2xl:text-[25px]"
         style=""
-        >{{ year }} / {{ month + 1 }}</span
       >
+        {{ year }} / {{ month + 1 }}
+      </span>
       <button
         @click="nextMonth"
         class="cursor-pointer text-4xl hover:scale-130"
       >
         >
       </button>
+    </div>
+    <div class="flex h-[30px] w-[100%] justify-end font-bold">
+      <select
+        style="
+          text-shadow:
+            0 0 2px blue,
+            0 0 4px blue,
+            0 0 8px blue,
+            0 0 12px blue,
+            0 0 20px blue,
+            0 0 35px blue,
+            0 0 60px blue,
+            0 0 60px blue,
+            0 0 90px blue,
+            0 0 110px blue;
+        "
+      >
+        <option value="" disabled selected>그룹</option>
+        <option value="토ㅇ즈">통즈</option>
+        <option value="토ㅇ즈">통즈</option>
+        <option value="토ㅇ즈">통즈</option>
+      </select>
     </div>
     <div class="calendar-grid w-[100%]">
       <div
