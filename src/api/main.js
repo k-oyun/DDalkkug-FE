@@ -23,7 +23,11 @@ const useMainApi = () => {
     );
   };
 
-  return { calendarGet, monthChartGet, weekChartGet, PriceGet };
+  const groupListGet = async () => {
+    return await axios.get("/group-info");
+  };
+
+  return { calendarGet, monthChartGet, weekChartGet, PriceGet, groupListGet };
 };
 
 export default useMainApi;

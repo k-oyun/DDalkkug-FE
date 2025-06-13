@@ -37,6 +37,7 @@
       class="flex h-[30px] w-[100%] justify-end text-[12px] font-bold md:text-[16px] lg:text-[16px]"
     >
       <select
+        class="text-right focus:border-transparent focus:ring-0 focus:outline-none"
         style="
           text-shadow:
             0 0 2px blue,
@@ -52,10 +53,11 @@
         "
       >
         <option value="" disabled selected>그룹</option>
-        <option value="토ㅇ즈">통즈</option>
-        <option value="토ㅇ즈">통즈</option>
-        <option value="토ㅇ즈">통즈</option>
+        <option v-for="group in groups" :key="group.id" :value="group.name">
+          {{ group.name }}
+        </option>
       </select>
+      <!-- <span class="text-white">{{ groups[0].name }}</span> -->
     </div>
     <div class="calendar-grid w-[100%]">
       <div
@@ -173,12 +175,23 @@ const getDayData = (day) => {
   return calendarData.value.find((item) => item.date === formatted);
 };
 
-const { calendarGet } = useMainApi();
+const options = ref([
+  { id: 1, name: "현대" },
+  { id: 2, name: "기아" },
+]);
+
+const { calendarGet, groupListGet } = useMainApi();
 const calendarData = ref([]);
+const groups = ref([]);
 onMounted(async () => {
   const res = await calendarGet(year.value, month.value + 1);
   calendarData.value = res.data.data;
-  console.log(res.data.data);
+  // console.log(res.data.data);
+  const res2 = await groupListGet();
+  // console.log(res2);
+  groups.value = res2.data.data;
+  // console.log(res2.data.data);
+  // console.log(groups);
 });
 </script>
 
