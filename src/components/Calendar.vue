@@ -55,7 +55,12 @@
         "
       >
         <option value="" disabled selected>그룹</option>
-        <option v-for="group in groups" :key="group.id" :value="group.id">
+        <option
+          v-for="group in groups"
+          :key="group.id"
+          :value="group.id"
+          class="text-black"
+        >
           {{ group.name }}
         </option>
       </select>

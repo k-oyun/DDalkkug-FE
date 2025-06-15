@@ -2,15 +2,15 @@ import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 import Home from "../pages/Home.vue";
 import Main from "../pages/Main.vue";
-import MyPage from "../pages/MyPage.vue";
 import LoginForm from "../components/forms/LoginForm.vue";
 import AccountPage from "../pages/AccountPage.vue";
 import SignForm from "../components/forms/SignForm.vue";
 import EmailVerifyForm from "@/components/forms/EmailVerifyForm.vue";
-import PasswordResetForm from "../components/forms/PasswordResetForm.vue";
 // 추후 ts 전환
 // @ts-ignore
 import { useAccountStore } from "@/stores/Account.js";
+import MyGroup from "@/components/MyGroup.vue";
+import MySpace from "@/pages/MySpace.vue";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", name: "Home", component: Home },
@@ -50,7 +50,8 @@ const routes: RouteRecordRaw[] = [
       { path: "verify", name: "reset-verify", component: EmailVerifyForm },
     ],
   },
-  { path: "/mypage", name: "MyPage", component: MyPage },
+  { path: "/myspace", name: "MySpace", component: MySpace },
+  { path: "/mygroup", name: "MyGroup", component: MyGroup },
 ];
 
 const router = createRouter({
