@@ -198,14 +198,19 @@ watch(selectedGroup, async () => {
     month.value + 1,
   );
   calendarData.value = groupData.data.data;
+  send();
 });
 onMounted(async () => {
   const res = await calendarGet(year.value, month.value + 1);
   calendarData.value = res.data.data;
-  console.log(calendarData.value);
   const res2 = await groupListGet();
   groups.value = res2.data.data;
 });
+
+const emit = defineEmits(["send-group-id"]);
+const send = () => {
+  emit("send-group-id", selectedGroup.value);
+};
 </script>
 
 <style scoped>

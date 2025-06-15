@@ -3,7 +3,7 @@
     class="flex h-[100vh] w-[100%] min-w-[100%] items-center justify-center"
     id="bg"
   >
-    <Calendar />
+    <Calendar @send-group-id="getGroupId" />
     <div
       class="ml-[50px] hidden h-[670px] w-[450px] min-w-[450px] flex-col items-center text-white sm:hidden md:hidden lg:hidden xl:flex 2xl:flex 2xl:h-[676px]"
     >
@@ -26,7 +26,8 @@
               0 0 4px #00aa00,
               0 0 8px #00aa00;
           "
-          >Total Price : {{ Prices.totalPaid }} 원
+        >
+          Total Price : {{ Prices.totalPaid }} 원
         </span>
         <span
           class="mt-[10px] text-[20px]"
@@ -40,8 +41,8 @@
           Week Price : {{ Prices.weekPrice }} 원
         </span>
       </div>
-      <Chart option="week" />
-      <Chart option="month" />
+      <Chart option="week" :group-id="groupId" />
+      <Chart option="month" :group-id="groupId" />
     </div>
   </div>
 </template>
@@ -50,18 +51,49 @@
 import Calendar from "../components/Calendar.vue";
 import Chart from "../components/Chart.vue";
 import useMainApi from "../api/main.js";
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch, computed } from "vue";
+const current = ref(new Date());
 
-const { PriceGet } = useMainApi();
+const getWeekOfMonth = (date) => {
+  const first = new Date(year, month, 1);
+  const day = date.getDate();
+  const firstDay = first.getDay() || 7; // 일요일(0)을 7로 보정
+  const curDay = date.getDay() || 7;
 
+  return Math.ceil((day + firstDay - 1) / 7);
+};
+
+const weekOfMonth = computed(() => getWeekOfMonth(current.value));
+const year = computed(() => current.value.getFullYear());
+const month = computed(() => current.value.getMonth());
+
+//------------------------------------------------------------------------
+const { PriceGet, GroupPriceGet } = useMainApi();
+
+const groupId = ref("");
+const getGroupId = (id) => {
+  groupId.value = id;
+};
 const Prices = {
   weekPrice: ref(0),
   totalPaid: ref(0),
 };
 onMounted(async () => {
-  const res = await PriceGet(2025, 6, 1);
+  const res = await PriceGet(year.value, month.value + 1, weekOfMonth.value);
   Prices.weekPrice.value = res.data.data.weekPrice.toLocaleString();
   Prices.totalPaid.value = res.data.data.totalPaid.toLocaleString();
+});
+
+watch(groupId, async () => {
+  const res = await GroupPriceGet(
+    groupId.value,
+    year.value,
+    month.value + 1,
+    weekOfMonth.value,
+  );
+  console.log(res);
+  Prices.weekPrice.value = res.data.data.weekPrice.toLocaleString();
+  Prices.totalPaid.value = res.data.data.groupTotalPaid.toLocaleString();
 });
 </script>
 

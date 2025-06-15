@@ -24,7 +24,7 @@
 </template>
 
 <script setup>
-import { defineProps, computed, onMounted, ref, reactive } from "vue";
+import { defineProps, computed, onMounted, ref, reactive, watch } from "vue";
 import VChart from "vue-echarts";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
@@ -50,8 +50,8 @@ const current = ref(new Date());
 const year = computed(() => current.value.getFullYear());
 const month = computed(() => current.value.getMonth());
 
-const { monthChartGet, weekChartGet } = useMainApi();
-
+const { monthChartGet, weekChartGet, groupWeekChartGet, groupMonthChartGet } =
+  useMainApi();
 const monthData = ref([]);
 const weekData = ref([]);
 onMounted(async () => {
@@ -64,7 +64,19 @@ onMounted(async () => {
   weekData.value = res.data.data.dailyExpenses;
 });
 
-const { option } = defineProps({ option: String });
+const { option, groupId } = defineProps({
+  option: String,
+  groupId: [String, Number],
+});
+watch(
+  () => groupId,
+  async (newGroupId) => {
+    const weekRes = await groupWeekChartGet(groupId);
+    const monthRes = await groupMonthChartGet(groupId);
+    weekData.value = weekRes.data.data.dailyExpenses;
+    monthData.value = monthRes.data.data;
+  },
+);
 const chartWeekOptions = computed(() => ({
   // backgroundColor: "#00ff0000",
   title: {

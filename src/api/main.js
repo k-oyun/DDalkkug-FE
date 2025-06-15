@@ -33,6 +33,21 @@ const useMainApi = () => {
     );
   };
 
+  const groupWeekChartGet = async (groupId) => {
+    return await axios.get(
+      `calendar-entries/group/${groupId}/current-weekdays`,
+    );
+  };
+  const groupMonthChartGet = async (groupId) => {
+    return await axios.get(`calendar-entries/group/${groupId}/month-expense`);
+  };
+
+  const GroupPriceGet = async (groupId, year, month, weekOfMonth) => {
+    return await axios.get(
+      `calendar-entries/group/${groupId}/week-expense?year=${year}&month=${month}&weekOfMonth=${weekOfMonth}`,
+    );
+  };
+
   return {
     calendarGet,
     monthChartGet,
@@ -40,6 +55,9 @@ const useMainApi = () => {
     PriceGet,
     groupListGet,
     groupCalendarGet,
+    groupWeekChartGet,
+    groupMonthChartGet,
+    GroupPriceGet,
   };
 };
 
