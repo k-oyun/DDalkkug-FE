@@ -23,7 +23,42 @@ const useMainApi = () => {
     );
   };
 
-  return { calendarGet, monthChartGet, weekChartGet, PriceGet };
+  const groupListGet = async () => {
+    return await axios.get("/group-info");
+  };
+
+  const groupCalendarGet = async (groupId, year, month) => {
+    return await axios.get(
+      `/calendar-entries/group/${groupId}/month?year=${year}&month=${month}`,
+    );
+  };
+
+  const groupWeekChartGet = async (groupId) => {
+    return await axios.get(
+      `calendar-entries/group/${groupId}/current-weekdays`,
+    );
+  };
+  const groupMonthChartGet = async (groupId) => {
+    return await axios.get(`calendar-entries/group/${groupId}/month-expense`);
+  };
+
+  const GroupPriceGet = async (groupId, year, month, weekOfMonth) => {
+    return await axios.get(
+      `calendar-entries/group/${groupId}/week-expense?year=${year}&month=${month}&weekOfMonth=${weekOfMonth}`,
+    );
+  };
+
+  return {
+    calendarGet,
+    monthChartGet,
+    weekChartGet,
+    PriceGet,
+    groupListGet,
+    groupCalendarGet,
+    groupWeekChartGet,
+    groupMonthChartGet,
+    GroupPriceGet,
+  };
 };
 
 export default useMainApi;
