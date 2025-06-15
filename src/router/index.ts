@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import type { RouteRecordRaw } from "vue-router";
 import Home from "../pages/Home.vue";
 import Main from "../pages/Main.vue";
-import MyPage from "../pages/MyPage.vue";
 import LoginForm from "../components/forms/LoginForm.vue";
 import AccountPage from "../pages/AccountPage.vue";
 import SignForm from "../components/forms/SignForm.vue";
@@ -50,7 +49,6 @@ const routes: RouteRecordRaw[] = [
       { path: "verify", name: "reset-verify", component: EmailVerifyForm },
     ],
   },
-  { path: "/mypage", name: "MyPage", component: MyPage },
 ];
 
 const router = createRouter({
