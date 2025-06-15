@@ -161,7 +161,7 @@ const chartWeekOptions = computed(() => ({
 }));
 
 const chartMonthOptions = computed(() => ({
-  backgroundColor: "#000000",
+  // backgroundColor: "#000000",
   title: {
     // text: "네온 차트",
     left: "center",
