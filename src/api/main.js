@@ -27,7 +27,20 @@ const useMainApi = () => {
     return await axios.get("/group-info");
   };
 
-  return { calendarGet, monthChartGet, weekChartGet, PriceGet, groupListGet };
+  const groupCalendarGet = async (groupId, year, month) => {
+    return await axios.get(
+      `/calendar-entries/group/${groupId}/month?year=${year}&month=${month}`,
+    );
+  };
+
+  return {
+    calendarGet,
+    monthChartGet,
+    weekChartGet,
+    PriceGet,
+    groupListGet,
+    groupCalendarGet,
+  };
 };
 
 export default useMainApi;
