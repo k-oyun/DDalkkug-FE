@@ -4,7 +4,7 @@
     style="background-color: var(--background-color)"
   >
     <div class="flex h-screen">
-      <aside class="w-64 border-r border-[#1f0036] p-6">
+      <aside class="w-50 border-r border-[#1f0036] p-6 lg:w-64">
         <div class="mb-10 text-2xl font-bold">내 공간</div>
         <nav class="space-y-4">
           <BaseNavItem>
@@ -27,9 +27,9 @@
           </BaseNavItem>
         </nav>
       </aside>
-      <main class="flex-1 p-8">
+      <main class="relative flex-1 overflow-y-auto p-8">
         <!-- 탭 메뉴 -->
-        <div class="mb-5 flex space-x-4">
+        <div class="text-md mb-5 flex space-x-4">
           <BaseButton>내가 가입한 그룹</BaseButton>
           <BaseButton>가입 가능한 그룹</BaseButton>
           <BaseButton>내가 만든 그룹</BaseButton>
@@ -45,23 +45,21 @@
           <div
             class="grid max-w-96 grid-cols-1 items-center gap-6 transition-[max-width] duration-200 ease-in-out sm:max-w-full md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3"
           >
-            <BaseGroupCard
-              title="드럼통"
-              description="드럼통"
-              members="멕시칸?"
-            />
-            <BaseGroupCard
-              title="주말 와인 모임"
-              description="쮸톤 코오릿 칏인 시흠췌"
-              members="유진 서연 도요"
-            />
-            <BaseGroupCard
-              title="맥주 탐방"
-              description="륔대 안쬬광 드이"
-              members="민재"
-            />
+            <div v-for="i in 10" :key="i">
+              <BaseGroupCard
+                title="드럼통"
+                description="드럼통"
+                memberCount="3"
+              />
+            </div>
           </div>
         </div>
+
+        <!-- <div class="fixed bottom-5 left-5">
+          <IconMaterialSymbolsVerifiedOutlineRounded
+            class="text-2xl opacity-60"
+          />
+        </div> -->
       </main>
     </div>
   </div>
