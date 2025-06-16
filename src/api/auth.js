@@ -1,11 +1,11 @@
 import axios from "./AxiosInstance";
 
 export const useAuthApi = () => {
-  const register = async (email, password, name) => {
+  const register = async (email, password, nickname) => {
     return await axios.post("/member/register", {
       email,
       password,
-      name,
+      nickname,
     });
   };
 
