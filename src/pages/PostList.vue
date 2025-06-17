@@ -3,34 +3,14 @@
     <div class="max-w-6xl mx-auto">
       <!-- 상단 헤더 -->
       <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-        <BaseButton
-          class="px-5"
-          @click="
-            () => {
-              router.push('/');
-            }
-          "
-          >홈</BaseButton
-        >
+        <BaseButton class="px-5" @click="() => { router.push('/') }">홈</BaseButton>
 
-        <h1
-          class="text-2xl sm:text-3xl font-bold text-center flex-1"
-          style="
-            filter: drop-shadow(0 0 3px #00f0ff) drop-shadow(0 0 5px #00f0ff);
-          "
-        >
+        <h1 class="text-2xl sm:text-3xl font-bold text-center flex-1"
+            style="filter: drop-shadow(0 0 3px #00f0ff) drop-shadow(0 0 5px #00f0ff);">
           전체 게시글
         </h1>
 
-        <BaseButton
-          class="px-5"
-          @click="
-            () => {
-              router.push('/posts/new');
-            }
-          "
-          >글 작성</BaseButton
-        >
+        <BaseButton class="px-5" @click="() => { router.push('/posts/new') }">글 작성</BaseButton>
       </div>
 
       <!-- 필터 버튼 -->
@@ -55,18 +35,12 @@
         >
           <!-- 텍스트 콘텐츠 -->
           <div class="flex-1 space-y-3">
-            <p class="text-cyan-300 font-semibold text-lg">
-              날짜 : {{ post.drinkingDate }}
-            </p>
-            <p class="text-cyan-300 font-semibold text-lg">
-              총 가격 : {{ post.totalPrice.toLocaleString() }}원
-            </p>
+            <p class="text-cyan-300 font-semibold text-lg">날짜 : {{ post.drinkingDate }}</p>
+            <p class="text-cyan-300 font-semibold text-lg">총 가격 : {{ post.totalPrice.toLocaleString() }}원</p>
 
             <div>
               <p class="font-semibold text-pink-400">메모</p>
-              <p
-                class="text-gray-200 whitespace-pre-line leading-relaxed text-base sm:text-lg break-words"
-              >
+              <p class="text-gray-200 whitespace-pre-line leading-relaxed text-base sm:text-lg break-words">
                 {{ post.memo }}
               </p>
             </div>
@@ -74,26 +48,15 @@
             <div>
               <p class="font-semibold text-green-400">주류 종류</p>
               <ul class="ml-6 text-white">
-                <li v-for="drink in post.drinks" :key="drink.id">
-                  {{ drink.type }} ({{ drink.quantity }}병)
-                </li>
+                <li v-for="drink in post.drinks" :key="drink.id">{{ drink.type }} ({{ drink.quantity }}병)</li>
               </ul>
-              <p class="font-semibold text-green-400">
-                그룹 : {{ groupMap[post.groupId] || "솔플" }}
-              </p>
+              <p class="font-semibold text-green-400">그룹 : {{ groupMap[post.groupId] || '솔플' }}</p>
             </div>
           </div>
 
           <!-- 이미지 -->
-          <div
-            v-if="post.photoUrl"
-            class="w-full md:w-40 aspect-square flex-shrink-0 self-center md:self-start"
-          >
-            <img
-              :src="post.photoUrl"
-              alt="photo"
-              class="w-full h-full object-contain rounded border border-white"
-            />
+          <div v-if="post.photoUrl" class="w-full md:w-40 aspect-square flex-shrink-0 self-center md:self-start">
+            <img :src="post.photoUrl" alt="photo" class="w-full h-full object-contain rounded border border-white" />
           </div>
         </router-link>
       </div>
@@ -104,15 +67,16 @@
       <!-- 스크롤 위로 버튼 -->
       <button
         @click="scrollToTop"
-        class="fixed bottom-6 right-6 w-12 h-12 bg-pink-500 hover:bg-pink-600 text-white rounded-full shadow-md flex items-center justify-center text-xl transition duration-200 ease-in-out border border-white/20 hover:scale-105"
+        class="fixed bottom-6 right-6 w-12 h-12 bg-pink-500 hover:bg-pink-600 text-white
+        rounded-full shadow-md flex items-center justify-center text-xl transition 
+        duration-200 ease-in-out border border-white/20 hover:scale-105"
         aria-label="맨 위로 이동"
         title="맨 위로"
-      >
-        ↑
-      </button>
+      >↑</button>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted, watch, computed } from "vue";
@@ -126,17 +90,15 @@ const selectedType = ref("전체");
 const observerTarget = ref(null);
 const groupMap = ref({});
 
+
 const fetchPosts = async () => {
   try {
     const token = localStorage.getItem("accessToken");
-    const res = await axios.get(
-      "https://api.ddalkkug.kro.kr/api/v1/calendar-entries",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axios.get("https://api.ddalkkug.kro.kr/api/v1/calendar-entries", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     posts.value = res.data.data.sort(
       (a, b) => new Date(b.drinkingDate) - new Date(a.drinkingDate)
     );
@@ -145,17 +107,15 @@ const fetchPosts = async () => {
   }
 };
 
+
 const fetchGroups = async () => {
   try {
     const token = localStorage.getItem("accessToken");
-    const res = await axios.get(
-      "https://api.ddalkkug.kro.kr/api/v1/group-info",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await axios.get("https://api.ddalkkug.kro.kr/api/v1/group-info", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     const map = {};
     for (const group of res.data.data) {
@@ -174,17 +134,12 @@ const filteredPosts = computed(() => {
   );
 });
 
-const visiblePosts = computed(() =>
-  filteredPosts.value.slice(0, visibleCount.value)
-);
+const visiblePosts = computed(() => filteredPosts.value.slice(0, visibleCount.value));
 
 // 무한 스크롤 로직
 const setupObserver = () => {
   const observer = new IntersectionObserver((entries) => {
-    if (
-      entries[0].isIntersecting &&
-      visibleCount.value < filteredPosts.value.length
-    ) {
+    if (entries[0].isIntersecting && visibleCount.value < filteredPosts.value.length) {
       visibleCount.value += 5;
     }
   });
@@ -197,6 +152,7 @@ const scrollToTop = () => {
     bg.scrollTo({ top: 0, behavior: "smooth" });
   }
 };
+
 
 onMounted(() => {
   fetchPosts();
@@ -214,7 +170,7 @@ watch(selectedType, () => {
 #bg {
   overflow-y: auto; /* 세로 스크롤 가능 */
   max-height: 100vh; /* 화면 높이 제한 */
-  background-image: url("../assets/background-img.png");
+  background-image: url('../assets/background-img.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -224,10 +180,10 @@ watch(selectedType, () => {
 #post-neon {
   border: 2px solid #3b82f6;
   animation: borderFlicker 1s infinite;
-  box-shadow:
-    0 0 6px #3b82f6,
-    0 0 12px #3b82f6,
-    0 0 18px #3b82f6;
+box-shadow:
+  0 0 6px #3b82f6,
+  0 0 12px #3b82f6,
+  0 0 18px #3b82f6;
 }
 
 @keyframes borderFlicker {
@@ -236,6 +192,7 @@ watch(selectedType, () => {
       0 0 6px #3b82f6,
       0 0 12px #3b82f6,
       0 0 18px #3b82f6;
+
   }
 
   50% {
@@ -243,6 +200,7 @@ watch(selectedType, () => {
       0 0 3px #3b82f6,
       0 0 6px #3b82f6,
       0 0 9px #3b82f6;
+
   }
 
   100% {
@@ -250,6 +208,8 @@ watch(selectedType, () => {
       0 0 6px #3b82f6,
       0 0 12px #3b82f6,
       0 0 18px #3b82f6;
+
   }
 }
+
 </style>
