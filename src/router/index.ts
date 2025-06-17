@@ -50,8 +50,12 @@ const routes: RouteRecordRaw[] = [
       { path: "verify", name: "reset-verify", component: EmailVerifyForm },
     ],
   },
-  { path: "/myspace", name: "MySpace", component: MySpace },
-  { path: "/mygroup", name: "MyGroup", component: MyGroup },
+  {
+    path: "/myspace",
+    name: "MySpace",
+    component: MySpace,
+    children: [{ path: "", name: "MyGroup", component: MyGroup }],
+  },
 ];
 
 const router = createRouter({

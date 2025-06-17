@@ -1,3 +1,12 @@
 import axios from "@/api/axiosInstance";
 
-const useGroupApi = () => {};
+export const useGroupApi = () => {
+  const groupInfo = async () => {
+    return await axios.get("/group-info");
+  };
+
+  return {
+    groupInfo,
+  };
+};
+export default useGroupApi;
