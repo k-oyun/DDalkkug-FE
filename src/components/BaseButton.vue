@@ -15,7 +15,8 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from "vue";
+import { ref, computed, defineProps } from "vue";
+
 
 // ############## 사용 예시 ##############ㅁ
 // <BaseButton
@@ -31,6 +32,7 @@ import { ref, defineProps } from "vue";
 const props = defineProps({
   neonColor: {
     default: "#00f0ff",
+    type: String,
   },
   hoverColor: { default: "#00b8ff", type: String },
 });

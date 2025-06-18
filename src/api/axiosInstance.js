@@ -1,27 +1,27 @@
 import axios from "axios";
 
-const axiosInstance = axios.create({
-  baseURL: "",
+const AxiosInstance = axios.create({
+  baseURL: "https://api.ddalkkug.kro.kr/api/v1",
   //withCredentials: true,
 });
 
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+AxiosInstance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("accessToken");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-axiosInstance.interceptors.response.use(
+AxiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      alert("로그인이 필요합니다.");
-      router.push("/login"); // SPA 방식으로 이동
+      console.log(error.response);
+      // alert("서버에러"); // SPA 방식으로 이동
     }
     return Promise.reject(error);
-  }
+  },
 );
 
-export default axiosInstance;
+export default AxiosInstance;
