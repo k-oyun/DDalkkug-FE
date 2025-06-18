@@ -29,7 +29,7 @@
           </BaseNavItem>
         </nav>
       </aside>
-      <main class="relative flex-1 overflow-y-auto p-6">
+      <main class="relative flex-1 overflow-y-auto p-3 md:p-6">
         <RouterView />
       </main>
     </div>

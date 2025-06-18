@@ -1,5 +1,7 @@
 <template>
-  <div class="p-3">
+  <div
+    class="p-3 transition-transform duration-300 ease-in-out hover:scale-[1.02]"
+  >
     <div
       class="neon-border relative flex min-h-[150px] items-start justify-between rounded-xl border bg-black/80 p-4 md:items-center"
       style="--neon-color: var(--neon-soju-color)"

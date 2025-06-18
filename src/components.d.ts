@@ -16,6 +16,7 @@ declare module 'vue' {
     Calendar: typeof import('./components/Calendar.vue')['default']
     Chart: typeof import('./components/Chart.vue')['default']
     EmailVerifyForm: typeof import('./components/forms/EmailVerifyForm.vue')['default']
+    IconLineMdLoadingTwotoneLoop: typeof import('~icons/line-md/loading-twotone-loop')['default']
     IconMaterialSymbolsAccountCircleOutline: typeof import('~icons/material-symbols/account-circle-outline')['default']
     IconMaterialSymbolsArrowBackIosRounded: typeof import('~icons/material-symbols/arrow-back-ios-rounded')['default']
     IconMaterialSymbolsExitToAppRounded: typeof import('~icons/material-symbols/exit-to-app-rounded')['default']

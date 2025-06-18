@@ -18,7 +18,13 @@ export default defineConfig({
       resolvers: [
         IconsResolver({
           prefix: "Icon",
-          enabledCollections: ["mdi", "material-symbols", "ic", "ph"],
+          enabledCollections: [
+            "mdi",
+            "material-symbols",
+            "ic",
+            "ph",
+            "line-md",
+          ],
         }),
       ],
     }),
@@ -32,5 +38,10 @@ export default defineConfig({
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
+  },
+
+  server: {
+    host: "0.0.0.0",
+    port: 5173, // 필요시 포트 조정
   },
 });
