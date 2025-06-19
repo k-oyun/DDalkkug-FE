@@ -1,4 +1,6 @@
 <template>
+  <!-- 모달창 -->
+  <BaseModal />
   <!-- 탭 메뉴 -->
   <div
     class="text-md mb-3 flex justify-center space-x-1.5 md:justify-start md:space-x-4"
@@ -42,6 +44,7 @@
       >
         <div v-for="group in groupDatas" :key="group.id">
           <BaseGroupCard
+            :groupId="group.id"
             :name="group.name"
             :description="group.description"
             :totalPaid="group.totalPaid"
@@ -51,7 +54,7 @@
       </div>
     </div>
     <div v-else class="flex w-full justify-center pt-10 text-white">
-      <IconLineMdLoadingTwotoneLoop class="text-[100px] text-blue-900" />
+      <IconLineMdLoadingTwotoneLoop class="text-[100px] text-[#00ccff]" />
     </div>
   </div>
 
@@ -66,7 +69,9 @@
 import { ref, computed, onMounted } from "vue";
 import { useGroupApi } from "@/api/group.js";
 
-const { groupInfo, myGroups } = useGroupApi();
+import BaseModal from "./BaseModal.vue";
+
+const { groupInfo, myGroups, notJoinedGroups, myLeadingGroups } = useGroupApi();
 
 const groupDatas = ref([]);
 
@@ -74,12 +79,24 @@ const buttonState = ref(0);
 
 const loading = ref(false);
 
-const change = (state) => {
+const change = async (state) => {
   buttonState.value = state;
 
+  let res;
   loading.value = true;
-  if (state == 1) {
+  if (state == 0) {
+    res = await myGroups();
   }
+
+  if (state == 1) {
+    res = await notJoinedGroups();
+  }
+
+  if (state == 2) {
+    res = await myLeadingGroups();
+  }
+
+  groupDatas.value = res.data.data;
   loading.value = false;
 };
 
@@ -87,7 +104,6 @@ const change = (state) => {
 onMounted(async () => {
   loading.value = true;
   const res = await myGroups();
-  console.log(res);
   groupDatas.value = res.data.data;
   console.log(groupDatas.value);
   loading.value = false;
