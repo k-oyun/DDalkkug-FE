@@ -1,13 +1,11 @@
 <template>
   <!-- 모달창 -->
-  <BaseModal />
+  <BaseGroupModal />
   <!-- 탭 메뉴 -->
-  <div
-    class="text-md mb-3 flex justify-center space-x-1.5 md:justify-start md:space-x-4"
-  >
+  <div class="text-md mb-3 flex justify-center md:justify-start md:space-x-4">
     <BaseButton
       neonColor="#00ccff"
-      class="md:text-md text-sm"
+      class="md:text-md text-xs"
       :style="{ color: buttonState == 0 ? '#00ccff' : '#d9d9d9' }"
       @click="change(0)"
     >
@@ -15,7 +13,7 @@
     </BaseButton>
     <BaseButton
       neonColor="#00ccff"
-      class="md:text-md text-sm"
+      class="md:text-md text-xs"
       :style="{ color: buttonState == 1 ? '#00ccff' : '#d9d9d9' }"
       @click="change(1)"
     >
@@ -23,7 +21,7 @@
     </BaseButton>
     <BaseButton
       neonColor="#00ccff"
-      class="md:text-md text-sm"
+      class="md:text-md text-xs"
       :style="{ color: buttonState == 2 ? '#00ccff' : '#d9d9d9' }"
       @click="change(2)"
     >
@@ -69,9 +67,11 @@
 import { ref, computed, onMounted } from "vue";
 import { useGroupApi } from "@/api/group.js";
 
-import BaseModal from "./BaseModal.vue";
+import BaseGroupModal from "./BaseGroupModal.vue";
+import { useGroupModalStore } from "@/stores/GroupModal.js";
 
 const { groupInfo, myGroups, notJoinedGroups, myLeadingGroups } = useGroupApi();
+const groupModalStore = useGroupModalStore();
 
 const groupDatas = ref([]);
 
@@ -86,14 +86,17 @@ const change = async (state) => {
   loading.value = true;
   if (state == 0) {
     res = await myGroups();
+    groupModalStore.setModalState(0);
   }
 
   if (state == 1) {
     res = await notJoinedGroups();
+    groupModalStore.setModalState(1);
   }
 
   if (state == 2) {
     res = await myLeadingGroups();
+    groupModalStore.setModalState(2);
   }
 
   groupDatas.value = res.data.data;

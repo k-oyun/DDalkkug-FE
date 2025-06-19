@@ -3,6 +3,8 @@ import { defineStore } from "pinia";
 export const useGroupModalStore = defineStore("group-modal", {
   state: () => ({
     isOpen: false,
+    modalState: 0,
+    isModify: false,
     groupId: -1,
     groupName: "",
     description: "",
@@ -11,6 +13,12 @@ export const useGroupModalStore = defineStore("group-modal", {
   actions: {
     setIsOpen(bool) {
       this.isOpen = bool;
+    },
+    setModalState(state) {
+      this.modalState = state;
+    },
+    setIsModify(bool) {
+      this.isModify = bool;
     },
     setGroupId(groupId) {
       this.groupId = groupId;
