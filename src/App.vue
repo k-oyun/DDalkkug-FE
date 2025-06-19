@@ -3,8 +3,8 @@ import MyPage from "./components/MyPage.vue";
 </script>
 
 <template>
-  <!-- <router-view /> -->
-  <MyPage />
+  <router-view />
+  <!-- <MyPage /> -->
 </template>
 
 <style scoped></style>

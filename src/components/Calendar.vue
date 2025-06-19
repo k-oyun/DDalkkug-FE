@@ -34,31 +34,46 @@
       </button>
     </div>
     <div
-      class="flex h-[30px] w-[100%] justify-end text-[12px] font-bold md:text-[16px] lg:text-[16px]"
+      class="flex h-[auto] w-[100%] justify-end text-[12px] font-bold md:text-[16px] lg:text-[16px]"
     >
       <!-- ------------------------------------------------------------------------------------ -->
-      <select
-        v-model="selectedGroup"
-        class="text-right focus:border-transparent focus:ring-0 focus:outline-none"
-        style="
-          text-shadow:
-            0 0 2px blue,
-            0 0 4px blue,
-            0 0 8px blue,
-            0 0 12px blue,
-            0 0 20px blue,
-            0 0 35px blue,
-            0 0 60px blue,
-            0 0 60px blue,
-            0 0 90px blue,
-            0 0 110px blue;
-        "
-      >
-        <option value="" disabled selected>그룹</option>
-        <option v-for="group in groups" :key="group.id" :value="group.id">
-          {{ group.name }}
-        </option>
-      </select>
+      <div class="flex flex-col">
+        <select
+          v-model="selectedGroup"
+          class="text-right focus:border-transparent focus:ring-0 focus:outline-none"
+          style="
+            text-shadow:
+              0 0 2px blue,
+              0 0 4px blue,
+              0 0 8px blue,
+              0 0 12px blue,
+              0 0 20px blue,
+              0 0 35px blue,
+              0 0 60px blue,
+              0 0 60px blue,
+              0 0 90px blue,
+              0 0 110px blue;
+          "
+        >
+          <option value="" disabled selected>그룹</option>
+          <option v-for="group in groups" :key="group.id" :value="group.id">
+            {{ group.name }}
+          </option>
+        </select>
+        <div
+          class="mt-[5px] mb-[5px] cursor-pointer pr-[15px]"
+          id="myPage"
+          style="
+            text-shadow:
+              0 0 2px #00aa00,
+              0 0 4px #00aa00,
+              0 0 8px #00aa00,
+              0 0 12px #00aa00;
+          "
+        >
+          나의 공간으로
+        </div>
+      </div>
     </div>
     <div class="calendar-grid w-[100%]">
       <div
@@ -253,5 +268,45 @@ const send = () => {
 #beer {
   filter: drop-shadow(0 0 0.18px #d3aa17) drop-shadow(0 0 0.18px #d3aa17)
     drop-shadow(0 0 0.18px #d3aa17);
+}
+
+@keyframes logoFlicker {
+  0% {
+    opacity: 1;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  20% {
+    opacity: 1;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  60% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0.8;
+  }
+  80% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+#myPage {
+  animation: logoFlicker 1s infinite;
 }
 </style>
