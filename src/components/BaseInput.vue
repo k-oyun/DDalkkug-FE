@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, defineProps } from "vue";
 // ############## 사용 예시 ##############
 // <BaseInput
 //     type="email"
@@ -47,7 +47,7 @@ import { computed } from "vue";
 // 부모 --> 자식 : 값 전달
 const props = defineProps({
   modelValue: {
-    type : null,
+    type: null,
   },
   neonColor: {
     type: null,
