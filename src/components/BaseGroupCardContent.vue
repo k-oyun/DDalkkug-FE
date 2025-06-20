@@ -80,7 +80,7 @@ const calStage = (totalPaid) => {
 
   if (totalPaid < 5000000) return 1;
 
-  return 3;
+  return 2;
 };
 
 const stage = computed(() => {
@@ -88,6 +88,7 @@ const stage = computed(() => {
   return calResult == null ? "" : calResult;
 });
 const stageImagePath = computed(() => {
+  console.log(props.totalPaid);
   const calResult = stageList[calStage(props.totalPaid)][0];
   return calResult ?? "";
 });

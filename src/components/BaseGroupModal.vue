@@ -28,7 +28,9 @@
           <div class="mt-3 flex w-full justify-center text-center text-2xl">
             멤버
           </div>
-          <div class="flex max-h-[300px] flex-col overflow-y-auto">
+          <div
+            class="flex max-h-[300px] flex-col overflow-y-auto lg:max-h-[280px]"
+          >
             <div
               class="my-auto grid grid-cols-1 items-center justify-center space-y-3 px-6 py-3 md:grid-cols-2 lg:grid-cols-3"
             >
@@ -41,6 +43,7 @@
                   <span
                     class="neon-border max-w-full truncate overflow-hidden rounded-2xl p-3 text-ellipsis whitespace-nowrap"
                   >
+                    <div class="hidden">{{ member.id }}</div>
                     <div class="max-w-full truncate overflow-hidden">
                       닉네임 : {{ member.nickname }}
                     </div>
@@ -56,6 +59,8 @@
                     <input
                       type="checkbox"
                       class="peer sr-only"
+                      :value="member.id"
+                      v-model="checkedItem"
                       @change="
                         () => {
                           console.log(member);
@@ -69,6 +74,15 @@
                 </label>
               </div>
             </div>
+          </div>
+          <div v-if="checkedItemLength">
+            <BaseButton
+              neonColor="#ff0000"
+              hoverColor="#cc0000"
+              class="text-sm"
+            >
+              멤버 삭제
+            </BaseButton>
           </div>
           <div class="relative flex items-center justify-between">
             <div v-if="groupModalStore.modalState == 2">
@@ -89,7 +103,14 @@
               <BaseButton
                 neonColor="#00ccff"
                 class="md:text-md min-w-[90px] text-xs"
-                @click="groupModalStore.setIsModify(!groupModalStore.isModify)"
+                @click="
+                  () => {
+                    groupModalStore.setIsModify(!groupModalStore.isModify);
+                    if (!groupModalStore.isModify) {
+                      checkedItem = [];
+                    }
+                  }
+                "
               >
                 {{ groupModalStore.isModify ? "수정 완료" : "그룹 수정" }}
               </BaseButton>
@@ -135,57 +156,17 @@ const { members } = useGroupApi();
 const groupModalStore = useGroupModalStore();
 
 const memberList = ref([]);
+const checkedItem = ref([]);
+const checkedItemLength = computed(() => checkedItem.value.length > 0);
 
-const dummyList = ref([
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-  {
-    email: "test",
-    nickname: "test",
-  },
-]);
+const addMemberAction = () => {};
+const deleteMembersAction = () => {
+  // 1. 선택된 멤버들 따로 저장
+  // 2. API 통신
+  // 3. 내부적으로 요소 삭제
+};
+
+const dummyList = ref([]);
 
 // 같은 그룹 카드를 눌렀을 경우 모든 값이 같으므로 변경하지 않게 설정
 // later : case>> 중간에 멤버가 들어왔을 경우? 새로고침이 안됨 즉, 멤버의 수 기준으로 watch를 해야한다
@@ -202,7 +183,15 @@ watch(
   },
 );
 
-onMounted(async () => {});
+onMounted(() => {
+  // 더미데이터 생성 후 삽입
+  let tmp = [];
+  for (let i = 0; i < 15; i++) {
+    tmp.push({ nickname: "테스트" + i, email: "example" + i, id: i });
+  }
+
+  dummyList.value = tmp;
+});
 </script>
 
 <style scoped>
