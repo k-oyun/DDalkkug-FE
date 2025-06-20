@@ -39,7 +39,7 @@
                 :key="member.id"
                 class="flex max-w-full justify-center"
               >
-                <label class="peer flex max-w-full">
+                <label class="peer flex max-w-full flex-col">
                   <span
                     class="neon-border max-w-full truncate overflow-hidden rounded-2xl p-3 text-ellipsis whitespace-nowrap"
                   >
@@ -51,7 +51,6 @@
                       이메일 : {{ member.email }}
                     </div>
                   </span>
-
                   <div
                     class="m-3 flex items-center justify-center"
                     v-if="groupModalStore.isModify"
@@ -75,11 +74,12 @@
               </div>
             </div>
           </div>
-          <div v-if="checkedItemLength">
+          <div :style="{ opacity: deleteButtonOpacity + '%' }">
             <BaseButton
               neonColor="#ff0000"
               hoverColor="#cc0000"
               class="text-sm"
+              @click="deleteMembersAction"
             >
               멤버 삭제
             </BaseButton>
@@ -149,6 +149,7 @@
 import { computed, onMounted, ref, watch } from "vue";
 import { useGroupApi } from "@/api/group.js";
 import { useGroupModalStore } from "@/stores/GroupModal.js";
+import { toRaw } from "vue";
 
 import BaseGroupCardContent from "./BaseGroupCardContent.vue";
 
@@ -157,13 +158,24 @@ const groupModalStore = useGroupModalStore();
 
 const memberList = ref([]);
 const checkedItem = ref([]);
-const checkedItemLength = computed(() => checkedItem.value.length > 0);
+const deleteButtonOpacity = computed(() =>
+  checkedItem.value.length > 0 ? "100" : "0",
+);
 
 const addMemberAction = () => {};
 const deleteMembersAction = () => {
-  // 1. 선택된 멤버들 따로 저장
-  // 2. API 통신
+  // 1. 선택된 멤버들 따로 저장 >> 완
+  // 2. API 통신 >> 마지막
   // 3. 내부적으로 요소 삭제
+  // 1번
+  let tmp = toRaw(checkedItem.value);
+  console.log("배열 결과 : " + tmp);
+  // 3번
+  // checkedItem 초기화
+  // memberList의 checked된 요소 삭제
+  // 조건 : 찾아서 삭제
+
+  console.log(memberList.value);
 };
 
 const dummyList = ref([]);
@@ -179,7 +191,8 @@ watch(
     // groupId가 변경되었다면 리스트를 먼저 초기화
     memberList.value = [];
     const res = await members(newGroupId);
-    memberList.value = res.data.data;
+    console.log("GroupId으로 찾아온 멤버들 : " + res);
+    memberList.value = res.data;
   },
 );
 
