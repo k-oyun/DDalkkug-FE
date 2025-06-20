@@ -20,7 +20,7 @@
           class="min-w-[100px] px-5 text-sm sm:text-lg"
           @click="
             () => {
-              router.push('/');
+              router.push('/main');
             }
           "
         >
