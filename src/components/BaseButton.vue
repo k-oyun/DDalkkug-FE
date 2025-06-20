@@ -17,7 +17,6 @@
 <script setup>
 import { ref, computed, defineProps } from "vue";
 
-
 // ############## 사용 예시 ##############ㅁ
 // <BaseButton
 //     :neonColor="#f148fb" // 기본 네온
@@ -30,6 +29,9 @@ import { ref, computed, defineProps } from "vue";
 // ######################################
 
 const props = defineProps({
+  modelValue: {
+    type: null,
+  },
   neonColor: {
     default: "#00f0ff",
     type: String,

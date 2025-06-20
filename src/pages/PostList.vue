@@ -1,27 +1,40 @@
 <template>
-  <div class="min-h-screen text-white p-4 sm:p-6" id="bg">
-    <div class="max-w-6xl mx-auto">
+  <div class="min-h-screen p-4 text-white sm:p-6" id="bg">
+    <div class="mx-auto max-w-6xl">
       <!-- 상단 헤더 -->
-      <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
-        <BaseButton class="px-5" @click="() => { router.push('/') }">홈</BaseButton>
-
-        <h1 class="text-2xl sm:text-3xl font-bold text-center flex-1"
-            style="filter: drop-shadow(0 0 3px #00f0ff) drop-shadow(0 0 5px #00f0ff);">
+      <div
+        class="relative mb-6 flex flex-wrap items-center justify-between gap-4"
+      >
+        <h1
+          class="flex-1 text-center text-2xl font-bold sm:text-3xl"
+          style="
+            filter: drop-shadow(0 0 3px #00f0ff) drop-shadow(0 0 5px #00f0ff);
+          "
+        >
           전체 게시글
         </h1>
-
-        <BaseButton class="px-5" @click="() => { router.push('/posts/new') }">글 작성</BaseButton>
       </div>
 
-      <!-- 필터 버튼 -->
-      <div class="mb-4 flex flex-wrap gap-3 justify-center sm:justify-start">
+      <div class="flex justify-between">
         <BaseButton
-          v-for="type in ['전체', '소주', '맥주']"
-          :key="type"
-          @click="selectedType = type"
-          class="px-5"
+          class="min-w-[100px] px-5 text-sm sm:text-lg"
+          @click="
+            () => {
+              router.push('/main');
+            }
+          "
         >
-          {{ type }}
+          홈
+        </BaseButton>
+        <BaseButton
+          class="min-w-[100px] px-5 text-sm sm:text-lg"
+          @click="
+            () => {
+              router.push('/posts/new');
+            }
+          "
+        >
+          글 작성
         </BaseButton>
       </div>
 
@@ -31,32 +44,117 @@
           v-for="post in visiblePosts"
           :key="post.id"
           :to="`/posts/${post.id}`"
-          class="flex flex-col md:flex-row justify-between gap-6 p-4 sm:p-6 bg-gray-800/70 rounded-lg hover:bg-gray-700/90 transition overflow-hidden neon-border"
+          class="neon-border flex flex-col justify-between gap-6 overflow-hidden rounded-lg bg-gray-800/70 p-4 transition hover:bg-gray-700/90 sm:p-6 md:flex-row"
         >
           <!-- 텍스트 콘텐츠 -->
-          <div class="flex-1 space-y-3">
-            <p class="text-cyan-300 font-semibold text-lg">날짜 : {{ post.drinkingDate }}</p>
-            <p class="text-cyan-300 font-semibold text-lg">총 가격 : {{ post.totalPrice.toLocaleString() }}원</p>
+          <div class="ml-3 flex-1 space-y-3">
+            <p
+              class="text-lg font-semibold"
+              style="
+                text-shadow:
+                  0 0 2px #00aa00,
+                  0 0 4px #00aa00,
+                  0 0 8px #00aa00;
+              "
+            >
+              적신 날 : {{ post.drinkingDate }}
+            </p>
+            <p
+              class="text-lg font-semibold"
+              style="
+                text-shadow:
+                  0 0 2px #00aa00,
+                  0 0 4px #00aa00,
+                  0 0 8px #00aa00;
+              "
+            >
+              총 가격 : {{ post.totalPrice.toLocaleString() }}원
+            </p>
 
             <div>
-              <p class="font-semibold text-pink-400">메모</p>
-              <p class="text-gray-200 whitespace-pre-line leading-relaxed text-base sm:text-lg break-words">
+              <p
+                class="text-lg font-semibold"
+                style="
+                  text-shadow:
+                    0 0 2px #fb64b6,
+                    0 0 4px #fb64b6,
+                    0 0 8px #fb64b6;
+                "
+              >
+                메모
+              </p>
+              <p
+                class="text-base leading-relaxed break-all whitespace-pre-line text-gray-200 sm:text-lg"
+              >
                 {{ post.memo }}
               </p>
             </div>
 
             <div>
-              <p class="font-semibold text-green-400">주류 종류</p>
-              <ul class="ml-6 text-white">
-                <li v-for="drink in post.drinks" :key="drink.id">{{ drink.type }} ({{ drink.quantity }}병)</li>
+              <p
+                class="text-lg font-semibold text-green-400"
+                style="
+                  text-shadow:
+                    0 0 2px #00aa00,
+                    0 0 4px #00aa00,
+                    0 0 8px #00aa00;
+                "
+              >
+                술 정보
+              </p>
+              <ul
+                class="ml-6"
+                style="
+                  text-shadow:
+                    0 0 2px #00aa00,
+                    0 0 4px #00aa00,
+                    0 0 8px #00aa00;
+                "
+              >
+                <li
+                  v-for="drink in post.drinks"
+                  :key="drink.id"
+                  class="font-semibold"
+                  :style="{
+                    textShadow:
+                      drink.type === '소주'
+                        ? '0 0 2px #00ff00, 0 0 4px #00ff00, 0 0 8px #00ff00'
+                        : drink.type === '맥주'
+                          ? '0 0 2px #facc15, 0 0 4px #facc15, 0 0 8px #facc15'
+                          : '0 0 2px #ffffff, 0 0 4px #ffffff, 0 0 8px #ffffff',
+                  }"
+                >
+                  {{ drink.type }} ({{ drink.quantity }}병)
+                </li>
               </ul>
-              <p class="font-semibold text-green-400">그룹 : {{ groupMap[post.groupId] || '솔플' }}</p>
+              <p
+                class="my-3 font-semibold"
+                style="
+                  text-shadow:
+                    0 0 2px #00aa00,
+                    0 0 4px #00aa00,
+                    0 0 8px #00aa00;
+                "
+              >
+                {{
+                  groupMap[post.groupId]
+                    ? "소속 - " + groupMap[post.groupId]
+                    : "솔플"
+                }}
+              </p>
             </div>
           </div>
 
           <!-- 이미지 -->
-          <div v-if="post.photoUrl" class="w-full md:w-40 aspect-square flex-shrink-0 self-center md:self-start">
-            <img :src="post.photoUrl" alt="photo" class="w-full h-full object-contain rounded border border-white" />
+          <div
+            v-if="post.photoUrl"
+            class="mr-3 aspect-square w-full flex-shrink-0 self-center md:w-40 md:self-start"
+          >
+            <img
+              :src="post.photoUrl"
+              alt="photo"
+              class="h-full w-full rounded border border-white object-contain"
+            />
           </div>
         </router-link>
       </div>
@@ -67,16 +165,15 @@
       <!-- 스크롤 위로 버튼 -->
       <button
         @click="scrollToTop"
-        class="fixed bottom-6 right-6 w-12 h-12 bg-pink-500 hover:bg-pink-600 text-white
-        rounded-full shadow-md flex items-center justify-center text-xl transition 
-        duration-200 ease-in-out border border-white/20 hover:scale-105"
+        class="fixed right-6 bottom-6 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-pink-500 text-xl text-white shadow-md transition duration-200 ease-in-out hover:scale-105 hover:bg-pink-600"
         aria-label="맨 위로 이동"
         title="맨 위로"
-      >↑</button>
+      >
+        ↑
+      </button>
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { ref, onMounted, watch, computed } from "vue";
@@ -90,32 +187,36 @@ const selectedType = ref("전체");
 const observerTarget = ref(null);
 const groupMap = ref({});
 
-
 const fetchPosts = async () => {
   try {
     const token = localStorage.getItem("accessToken");
-    const res = await axios.get("https://api.ddalkkug.kro.kr/api/v1/calendar-entries", {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const res = await axios.get(
+      "https://api.ddalkkug.kro.kr/api/v1/calendar-entries",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
     posts.value = res.data.data.sort(
-      (a, b) => new Date(b.drinkingDate) - new Date(a.drinkingDate)
+      (a, b) => new Date(b.drinkingDate) - new Date(a.drinkingDate),
     );
   } catch (err) {
     console.error("불러오기 실패", err);
   }
 };
 
-
 const fetchGroups = async () => {
   try {
     const token = localStorage.getItem("accessToken");
-    const res = await axios.get("https://api.ddalkkug.kro.kr/api/v1/group-info", {
-      headers: {
-        Authorization: `Bearer ${token}`,
+    const res = await axios.get(
+      "https://api.ddalkkug.kro.kr/api/v1/group-info",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    });
+    );
 
     const map = {};
     for (const group of res.data.data) {
@@ -130,16 +231,21 @@ const fetchGroups = async () => {
 const filteredPosts = computed(() => {
   if (selectedType.value === "전체") return posts.value;
   return posts.value.filter((post) =>
-    post.drinks.some((drink) => drink.type === selectedType.value)
+    post.drinks.some((drink) => drink.type === selectedType.value),
   );
 });
 
-const visiblePosts = computed(() => filteredPosts.value.slice(0, visibleCount.value));
+const visiblePosts = computed(() =>
+  filteredPosts.value.slice(0, visibleCount.value),
+);
 
 // 무한 스크롤 로직
 const setupObserver = () => {
   const observer = new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting && visibleCount.value < filteredPosts.value.length) {
+    if (
+      entries[0].isIntersecting &&
+      visibleCount.value < filteredPosts.value.length
+    ) {
       visibleCount.value += 5;
     }
   });
@@ -152,7 +258,6 @@ const scrollToTop = () => {
     bg.scrollTo({ top: 0, behavior: "smooth" });
   }
 };
-
 
 onMounted(() => {
   fetchPosts();
@@ -167,10 +272,15 @@ watch(selectedType, () => {
 
 <style scoped>
 @import "../styles/neon.css";
+
+* {
+  overflow: visible;
+}
+
 #bg {
   overflow-y: auto; /* 세로 스크롤 가능 */
   max-height: 100vh; /* 화면 높이 제한 */
-  background-image: url('../assets/background-img.png');
+  background-image: url("../assets/background-img.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -180,10 +290,10 @@ watch(selectedType, () => {
 #post-neon {
   border: 2px solid #3b82f6;
   animation: borderFlicker 1s infinite;
-box-shadow:
-  0 0 6px #3b82f6,
-  0 0 12px #3b82f6,
-  0 0 18px #3b82f6;
+  box-shadow:
+    0 0 6px #3b82f6,
+    0 0 12px #3b82f6,
+    0 0 18px #3b82f6;
 }
 
 @keyframes borderFlicker {
@@ -192,7 +302,6 @@ box-shadow:
       0 0 6px #3b82f6,
       0 0 12px #3b82f6,
       0 0 18px #3b82f6;
-
   }
 
   50% {
@@ -200,7 +309,6 @@ box-shadow:
       0 0 3px #3b82f6,
       0 0 6px #3b82f6,
       0 0 9px #3b82f6;
-
   }
 
   100% {
@@ -208,8 +316,6 @@ box-shadow:
       0 0 6px #3b82f6,
       0 0 12px #3b82f6,
       0 0 18px #3b82f6;
-
   }
 }
-
 </style>

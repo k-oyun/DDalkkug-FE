@@ -1,34 +1,53 @@
 <template>
-  <div class="min-h-screen text-white p-4 sm:p-6" id="bg">
-    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 rounded-2xl shadow-lg space-y-6 overflow-visible neon-border"
-         style="background-color: var(--background-color)">
-      
+  <div class="min-h-screen p-4 text-white sm:p-6" id="bg">
+    <div
+      class="neon-border mx-auto max-w-4xl space-y-6 overflow-visible rounded-2xl p-4 shadow-lg sm:p-6 lg:p-8"
+      style="background-color: var(--background-color)"
+    >
       <!-- 상단 버튼 -->
-      <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+      <div class="mb-6 flex flex-nowrap items-center justify-between gap-4">
+        <h1
+          class="flex-1 text-center text-2xl font-bold sm:text-3xl"
+          style="
+            filter: drop-shadow(0 0 3px #00f0ff) drop-shadow(0 0 5px #00f0ff);
+          "
+        >
+          {{ isEdit ? "술자리 기록 수정" : "술자리 기록 작성" }}
+        </h1>
+      </div>
+      <div class="flex justify-between">
         <BaseButton
-          class="text-sm px-4 py-2"
-          @click="() => { if (isEdit) { router.push(`/posts/${postId}`) } else { router.push('/posts') } }"
+          class="min-w-[100px] px-4 py-2 text-sm sm:text-lg"
+          @click="
+            () => {
+              if (isEdit) {
+                router.push(`/posts/${postId}`);
+              } else {
+                router.push('/posts');
+              }
+            }
+          "
         >
           취소
         </BaseButton>
-
-        <h1 class="text-xl sm:text-2xl font-bold text-pink-400 text-center flex-1">
-          {{ isEdit ? '술자리 기록 수정' : '술자리 기록 작성' }}
-        </h1>
-
         <BaseButton
-          class="text-sm px-4 py-2"
-          @click="() => { router.push('/posts') }"
+          class="min-w-[100px] px-4 py-2 text-sm sm:text-lg"
+          @click="
+            () => {
+              router.push('/posts');
+            }
+          "
         >
           전체 기록 보기
         </BaseButton>
       </div>
-
       <!-- 작성 폼 -->
       <form @submit.prevent="handleSubmit" class="space-y-4">
         <!-- 날짜 -->
         <div>
-          <label class="block text-sm font-medium text-gray-300 mb-1">날짜</label>
+          <label class="mb-1 block text-sm font-medium text-gray-300">
+            날짜
+          </label>
           <BaseInput
             type="date"
             v-model="entry.drinkingDate"
@@ -39,7 +58,9 @@
 
         <!-- 그룹 선택 -->
         <div>
-          <label class="block text-sm font-medium text-gray-300 mb-1">공유할 그룹 선택</label>
+          <label class="mb-1 block text-sm font-medium text-gray-300">
+            공유할 그룹 선택
+          </label>
           <BaseSelect v-model="entry.groupId" class="w-full cursor-pointer">
             <option :value="''" class="text-black">그룹 선택 X</option>
             <option
@@ -53,12 +74,14 @@
           </BaseSelect>
         </div>
 
-        <!-- 술 종류 -->
+        <!-- 병 수 -->
         <div>
-          <label class="block text-sm font-medium text-gray-300 mb-1">술 종류 및 병 수</label>
+          <label class="mb-1 block text-sm font-medium text-gray-300">
+            병 수
+          </label>
           <div class="space-y-2">
             <div class="flex items-center gap-2">
-              <span class="w-1/4 text-white text-center">소주</span>
+              <span class="w-1/4 text-center text-white">소주</span>
               <BaseInput
                 v-model.number="entry.sojus"
                 type="number"
@@ -68,7 +91,7 @@
               />
             </div>
             <div class="flex items-center gap-2">
-              <span class="w-1/4 text-white text-center">맥주</span>
+              <span class="w-1/4 text-center text-white">맥주</span>
               <BaseInput
                 v-model.number="entry.beers"
                 type="number"
@@ -82,7 +105,9 @@
 
         <!-- 총 가격 -->
         <div>
-          <label class="block text-sm font-medium text-gray-300 mb-1">총 가격 (₩)</label>
+          <label class="mb-1 block text-sm font-medium text-gray-300">
+            총 가격 (₩)
+          </label>
           <BaseInput
             type="number"
             min="0"
@@ -94,8 +119,10 @@
 
         <!-- 사진 업로드 -->
         <div>
-          <label class="block text-sm font-medium text-gray-300 mb-1">사진 (선택)</label>
-          <BaseInput
+          <label class="mb-1 block text-sm font-medium text-gray-300">
+            사진 (선택)
+          </label>
+          <BaseFileInput
             type="file"
             accept="image/*"
             @change="handleImage"
@@ -105,13 +132,15 @@
             v-if="entry.image || entry.photoUrl"
             :src="entry.image || entry.photoUrl"
             alt="미리보기"
-            class="my-10 rounded border neon-border max-h-60 max-w-full object-contain mx-auto"
+            class="neon-border mx-auto my-10 max-h-60 max-w-full rounded border object-contain"
           />
         </div>
 
         <!-- 메모 -->
         <div>
-          <label class="block text-sm font-medium text-gray-300 mb-1">메모</label>
+          <label class="mb-1 block text-sm font-medium text-gray-300">
+            메모
+          </label>
           <BaseTextarea
             v-model="entry.memo"
             placeholder="어디서, 누구랑, 어떤 분위기였는지 간단히 기록해보세요."
@@ -120,8 +149,8 @@
         </div>
 
         <!-- 제출 버튼 -->
-        <BaseButton type="submit">
-          {{ isEdit ? '수정 완료' : '작성 완료' }}
+        <BaseButton type="submit" :disabled="isSubmitting">
+          {{ isEdit ? "수정 완료" : "작성 완료" }}
         </BaseButton>
       </form>
     </div>
@@ -129,18 +158,20 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
-import axios from 'axios';
-import BaseInput from '../components/BaseInput.vue';
-import BaseSelect from '../components/BaseSelect.vue';
-import BaseTextarea from '../components/BaseTextarea.vue';
-import BaseButton from '../components/BaseButton.vue';
+import { ref, computed, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
+import axios from "axios";
+import BaseInput from "../components/BaseInput.vue";
+import BaseSelect from "../components/BaseSelect.vue";
+import BaseTextarea from "../components/BaseTextarea.vue";
+import BaseButton from "../components/BaseButton.vue";
+import BaseFileInput from "@/components/BaseFileInput.vue";
 
 const route = useRoute();
 const router = useRouter();
 const postId = route.params.id;
 const isEdit = computed(() => !!postId);
+const isSubmitting = ref(false);
 
 const entry = ref({
   userId: 1,
@@ -160,37 +191,41 @@ const myGroups = ref([]);
 const fetchPostDetail = async () => {
   const token = localStorage.getItem("accessToken");
   try {
-    const res = await axios.get(`https://api.ddalkkug.kro.kr/api/v1/calendar-entries/${postId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await axios.get(
+      `https://api.ddalkkug.kro.kr/api/v1/calendar-entries/${postId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
     const data = res.data.data;
     entry.value = {
       userId: data.userId,
       drinkingDate: data.drinkingDate,
       memo: data.memo,
       totalPrice: data.totalPrice,
-      sojus: data.drinks.find(d => d.type === "소주")?.quantity || 0,
-      beers: data.drinks.find(d => d.type === "맥주")?.quantity || 0,
+      sojus: data.drinks.find((d) => d.type === "소주")?.quantity || 0,
+      beers: data.drinks.find((d) => d.type === "맥주")?.quantity || 0,
       image: null,
       rawImageFile: null,
       photoUrl: data.photoUrl || null,
       groupId: data.groupId || null,
     };
-    
   } catch (err) {
     console.error("불러오기 실패", err);
     alert("게시글을 불러오는 데 실패했습니다.");
     router.push("/posts");
   }
-
 };
 
 const fetchMyGroups = async () => {
   const token = localStorage.getItem("accessToken");
   try {
-    const res = await axios.get("https://api.ddalkkug.kro.kr/api/v1/group-member/my-groups", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const res = await axios.get(
+      "https://api.ddalkkug.kro.kr/api/v1/group-member/my-groups",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
     myGroups.value = res.data.data;
     console.log(myGroups.value);
   } catch (err) {
@@ -217,6 +252,9 @@ const handleImage = (e) => {
 };
 
 const handleSubmit = async () => {
+  if (isSubmitting.value) return; // 중복 방지
+  isSubmitting.value = true;
+
   const token = localStorage.getItem("accessToken");
   const formData = new FormData();
 
@@ -244,21 +282,21 @@ const handleSubmit = async () => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       alert("✅ 게시글이 수정되었습니다!");
     } else {
       await axios.post(
-        'https://api.ddalkkug.kro.kr/api/v1/calendar-entries',
+        "https://api.ddalkkug.kro.kr/api/v1/calendar-entries",
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       alert("✅ 기록이 저장되었습니다!");
     }
@@ -266,6 +304,8 @@ const handleSubmit = async () => {
   } catch (err) {
     console.error("에러 발생:", err);
     alert("❌ 저장 또는 수정 중 오류가 발생했습니다.");
+  } finally {
+    isSubmitting.value = false; // 끝난 뒤 다시 활성화
   }
 };
 </script>
@@ -281,7 +321,7 @@ const handleSubmit = async () => {
 #bg {
   overflow-y: auto; /* 세로 스크롤 가능 */
   max-height: 100vh; /* 화면 높이 제한 */
-  background-image: url('../assets/background-img.png');
+  background-image: url("../assets/background-img.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
