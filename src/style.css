@@ -1,5 +1,11 @@
-* {
+/* * {
   overflow: hidden;
+} */
+
+:root {
+  --background-color: #030015;
+  --text-color: #ffffff;
+  --neon-soju-color: #00aa00;
 }
 :root {
   --background-color: #030015;

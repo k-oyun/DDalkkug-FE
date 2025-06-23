@@ -13,6 +13,8 @@ import PostCreate from "../pages/PostCreate.vue";
 // 추후 ts 전환
 // @ts-ignore
 import { useAccountStore } from "@/stores/Account.js";
+import MyGroup from "@/components/MyGroup.vue";
+import MySpace from "@/pages/MySpace.vue";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", name: "Home", component: Home },
@@ -51,6 +53,12 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: "verify", name: "reset-verify", component: EmailVerifyForm },
     ],
+  },
+  {
+    path: "/myspace",
+    name: "MySpace",
+    component: MySpace,
+    children: [{ path: "", name: "MyGroup", component: MyGroup }],
   },
   { path: "/posts", name: "Posts", component: PostList},
   { path: "/posts/:id", name:"PostDetail", component: PostDetail},

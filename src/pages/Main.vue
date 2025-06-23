@@ -79,7 +79,11 @@ const Prices = {
   totalPaid: ref(0),
 };
 onMounted(async () => {
-  const res = await PriceGet(year.value, month.value + 1, weekOfMonth.value);
+  const res = await PriceGet(
+    year.value,
+    month.value + 1,
+    weekOfMonth.value - 1,
+  );
   Prices.weekPrice.value = res.data.data.weekPrice.toLocaleString();
   Prices.totalPaid.value = res.data.data.totalPaid.toLocaleString();
 });
@@ -89,7 +93,7 @@ watch(groupId, async () => {
     groupId.value,
     year.value,
     month.value + 1,
-    weekOfMonth.value,
+    weekOfMonth.value - 1,
   );
   console.log(res);
   Prices.weekPrice.value = res.data.data.weekPrice.toLocaleString();
