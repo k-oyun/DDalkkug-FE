@@ -6,6 +6,10 @@ import LoginForm from "../components/forms/LoginForm.vue";
 import AccountPage from "../pages/AccountPage.vue";
 import SignForm from "../components/forms/SignForm.vue";
 import EmailVerifyForm from "@/components/forms/EmailVerifyForm.vue";
+import PasswordResetForm from "../components/forms/PasswordResetForm.vue";
+import PostList from "../pages/PostList.vue";
+import PostDetail from "../pages/PostDetail.vue";
+import PostCreate from "../pages/PostCreate.vue";
 // 추후 ts 전환
 // @ts-ignore
 import { useAccountStore } from "@/stores/Account.js";
@@ -56,6 +60,10 @@ const routes: RouteRecordRaw[] = [
     component: MySpace,
     children: [{ path: "", name: "MyGroup", component: MyGroup }],
   },
+  { path: "/posts", name: "Posts", component: PostList},
+  { path: "/posts/:id", name:"PostDetail", component: PostDetail},
+  { path: "/posts/new", name: "PostCreate", component:PostCreate},
+  { path: "/posts/:id/edit", name: "PostEdit", component:PostCreate},
 ];
 
 const router = createRouter({

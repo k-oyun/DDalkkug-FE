@@ -4,6 +4,7 @@
       class="neon-border flex w-full justify-center rounded-md px-3 py-3 text-lg font-extrabold text-white shadow-xs hover:cursor-pointer disabled:text-gray-500"
       :style="{ '--neon-color': currentColor }"
       v-bind="$attrs"
+      :value="modelValue"
       @click="$emit('click', $event)"
       @mouseover="handleHover"
       @mouseleave="handleLeave"
@@ -28,6 +29,9 @@ import { ref, computed, defineProps } from "vue";
 // ######################################
 
 const props = defineProps({
+  modelValue: {
+    type: null,
+  },
   neonColor: {
     default: "#00f0ff",
     type: String,

@@ -1,11 +1,11 @@
 import axios from "./AxiosInstance";
 
 export const useAuthApi = () => {
-  const register = async (email, password, name) => {
+  const register = async (email, password, nickname) => {
     return await axios.post("/member/register", {
       email,
       password,
-      name,
+      nickname,
     });
   };
 
@@ -32,6 +32,10 @@ export const useAuthApi = () => {
     });
   };
 
+  const getUserInfo = async () => {
+    return await axios.get("/member/user-info");
+  };
+
   return {
     register,
     login,
@@ -39,6 +43,7 @@ export const useAuthApi = () => {
     verifyEmail,
     sendResetEmail,
     verifyResetEmail,
+    getUserInfo,
   };
 };
 export default useAuthApi;

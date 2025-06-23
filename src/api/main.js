@@ -24,7 +24,7 @@ const useMainApi = () => {
   };
 
   const groupListGet = async () => {
-    return await axios.get("/group-info");
+    return await axios.get("/group-member/my-groups");
   };
 
   const groupCalendarGet = async (groupId, year, month) => {
