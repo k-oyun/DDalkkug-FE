@@ -27,6 +27,7 @@
     "@eslint/markdown": "^6.4.0",
     "@iconify-json/line-md": "^1.2.8",
     "@iconify-json/material-symbols": "^1.2.26",
+    "@iconify-json/``````````````````````mdi": "^1.2.3",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
     "conventional-changelog": "^7.0.2",
