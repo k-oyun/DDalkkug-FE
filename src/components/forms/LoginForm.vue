@@ -118,6 +118,7 @@ const handleClick = async () => {
     const res = await login(emailInput.value, pwdInput.value);
     localStorage.setItem("accessToken", res.data.data.accessToken);
     // alert("로그인 성공! accessToken : " + localStorage.getItem("accessToken"));
+    console.log(res);
     router.push("/main");
   } catch (e) {
     validMsg.value = e.response.data.message;

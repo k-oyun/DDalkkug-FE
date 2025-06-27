@@ -1,9 +1,9 @@
 <template>
   <div class="relative z-0 flex w-full items-center justify-between">
     <div class="hidden lg:block">
-      <div class="h-auto w-[100px] p-6">
+      <div class="h-[100px] w-[100px] p-6">
         <img
-          class="h-auto max-h-[80px] w-full object-contain"
+          class="h-full w-full object-contain"
           :src="stageImagePath"
           style="
             filter: drop-shadow(0 0 5px var(--neon-soju-color))

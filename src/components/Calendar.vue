@@ -70,6 +70,11 @@
               0 0 8px #00aa00,
               0 0 12px #00aa00;
           "
+          @click="
+            () => {
+              router.push('/myspace');
+            }
+          "
         >
           나의 공간으로
         </div>
@@ -151,6 +156,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
 import useMainApi from "../api/main.js";
+import router from "@/router/index.js";
 
 //----------------------------------------------------------------------------
 const today = new Date();
