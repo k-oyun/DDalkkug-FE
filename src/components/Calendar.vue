@@ -1,6 +1,6 @@
 <template>
   <div
-    class="calendar-container h-[670px] w-[900px] rounded-[15px] border-1 border-[white] bg-black/70 text-white transition-all duration-100 ease-in-out sm:ml-0 sm:w-[300px] md:ml-0 md:w-[800px] lg:w-[800px] xl:ml-[50px] xl:w-[900px] 2xl:ml-[50px] 2xl:h-[676px] 2xl:w-[1000px]"
+    class="calendar-container h-[710px] w-[900px] rounded-[15px] border-1 border-[white] bg-black/70 text-white transition-all duration-100 ease-in-out sm:ml-0 sm:w-[300px] md:ml-0 md:w-[800px] lg:w-[800px] xl:ml-[50px] xl:w-[900px] 2xl:ml-[50px] 2xl:h-[676px] 2xl:w-[1000px]"
     style="
       /* filter: drop-shadow(0 0 20px #fff); */
       box-shadow:
@@ -61,7 +61,7 @@
           </option>
         </select>
         <div
-          class="mt-[5px] mb-[5px] cursor-pointer pr-[15px]"
+          class="mt-[5px] mr-[10px] mb-[5px] cursor-pointer text-right"
           id="myPage"
           style="
             text-shadow:
