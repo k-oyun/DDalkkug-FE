@@ -61,7 +61,7 @@
           </option>
         </select>
         <div
-          class="mt-[5px] mb-[5px] cursor-pointer pr-[15px]"
+          class="mt-[5px] mr-[10px] mb-[5px] cursor-pointer text-right"
           id="myPage"
           style="
             text-shadow:
