@@ -59,6 +59,7 @@
             </div>
           </div>
         </div>
+
         <div>
           <BaseGroupCardContent
             class="my-5"
@@ -67,6 +68,9 @@
             :totalPaid="groupModalStore.totalPaid"
             :memberCount="String(3)"
           />
+          <div class="mb-2 text-center text-xl">
+            그룹장 : {{ leader.nickname }}
+          </div>
           <div
             class="neon-border"
             style="--neon-color: #ccc; border: 1px solid"
@@ -81,7 +85,7 @@
               class="my-auto grid grid-cols-1 items-center justify-center space-y-3 px-6 py-3 md:grid-cols-2 lg:grid-cols-3"
             >
               <div
-                v-for="member in dummyList"
+                v-for="member in memberList"
                 :key="member.id"
                 class="flex max-w-full justify-center"
               >
@@ -168,7 +172,12 @@
               <BaseButton
                 neonColor="#00ccff"
                 class="md:text-md min-w-[90px] text-xs"
-                @click="change(0)"
+                @click="
+                  async () => {
+                    // later : api 수정필요
+                    await groupEnter(1, 1);
+                  }
+                "
               >
                 그룹 가입
               </BaseButton>
@@ -201,13 +210,16 @@ import { toRaw } from "vue";
 
 import BaseGroupCardContent from "./BaseGroupCardContent.vue";
 
-const { members, deleteGroup, deleteGroupMember } = useGroupApi();
+const { members, deleteGroup, deleteGroupMember, groupEnter } = useGroupApi();
 const groupModalStore = useGroupModalStore();
 
 const innerModalState = ref(false);
 
 const memberList = ref([]);
 const checkedItem = ref([]);
+
+const leader = ref([]);
+
 const deleteButtonOpacity = computed(() =>
   checkedItem.value.length > 0 ? "100" : "0",
 );
@@ -227,23 +239,24 @@ const deleteMembersAction = async () => {
 
   // 선택된 멤버를 제외한 멤버리스트를 뽑아냄
   let filteredMember = [];
-  toRaw(dummyList.value).filter((obj) => {
+  toRaw(memberList.value).filter((obj) => {
     if (checkedId.find((item) => obj.id == item)) return false;
     filteredMember.push(obj);
     return true;
   });
 
   // 멤버리스트를 local 상에서 저장
-  dummyList.value = filteredMember;
+  // dummyList.value = filteredMember;
+  memberList.value = filteredMember;
 
   // api로 싹다 삭제
-  console.log(dummyList);
+  console.log(memberList);
 
   // checked 멤버를 기준으로 api 순차호출
-  checkedItem.value.map((id) => {
+  checkedItem.value.map(async (id) => {
     console.log(id);
     // later : 캡션 지우기
-    // await deleteGroupMember(groupModalStore.getGroupId, id);
+    await deleteGroupMember(groupModalStore.getGroupId, id);
   });
 };
 
@@ -251,7 +264,7 @@ const dummyList = ref([]);
 
 // 같은 그룹 카드를 눌렀을 경우 모든 값이 같으므로 변경하지 않게 설정
 // later : case>> 중간에 멤버가 들어왔을 경우? 새로고침이 안됨 즉, 멤버의 수 기준으로 watch를 해야한다
-// later : 백엔드 단에서 멤버의 수도 보내줘야겟다
+// later : 백엔드 단에서 멤버의 수도 보내줘야겟다 << 여기 아직
 // later : groupId 변했는가? group의 멤버수가 변했는가? 두개를 판단해야한다
 watch(
   () => groupModalStore.getGroupId,
@@ -267,7 +280,15 @@ watch(
     console.log("이 방의 leaderId : " + groupModalStore.leaderId);
     console.log("리더를 제외한 멤버들");
     console.log(
-      res.data.data.filter((obj) => obj.id !== groupModalStore.leaderId),
+      res.data.data.filter((obj) => {
+        if (obj.id !== groupModalStore.leaderId) {
+          return true;
+        }
+
+        // 그룹장은 따로 저장
+        leader.value = obj;
+        return false;
+      }),
     );
     // 그룹장을 제외하고 멤버들을 넣음
     memberList.value = res.data.data.filter(
@@ -279,7 +300,7 @@ watch(
 const deleteGroupApi = async () => {
   console.log("그룹 삭제 시행!");
   // later : 캡션 제거
-  //await deleteGroup(groupModalStore.getGroupId);
+  await deleteGroup(groupModalStore.getGroupId);
 };
 
 onMounted(() => {

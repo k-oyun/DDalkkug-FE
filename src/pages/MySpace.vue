@@ -15,13 +15,27 @@
               <router-link to="/main">홈으로 가기</router-link>
             </template>
           </BaseNavItem>
-          <BaseNavItem>
+          <BaseNavItem
+            @click="
+              () => {
+                router.push('/myspace');
+              }
+            "
+            :active="isGroupActive"
+          >
             <template #icon>
               <IconMaterialSymbolsGroupOutlineRounded />
             </template>
             <template #text>그룹</template>
           </BaseNavItem>
-          <BaseNavItem>
+          <BaseNavItem
+            @click="
+              () => {
+                router.push('/myspace/mypage');
+              }
+            "
+            :active="isMyPageActive"
+          >
             <template #icon>
               <IconMaterialSymbolsAccountCircleOutline />
             </template>
@@ -29,14 +43,23 @@
           </BaseNavItem>
         </nav>
       </aside>
-      <main class="relative flex-1 overflow-y-auto p-3 md:p-6">
+      <main class="relative flex-1">
         <RouterView />
       </main>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { ref, computed } from "vue";
+import router from "@/router";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+const isGroupActive = computed(() => route.path === "/myspace");
+const isMyPageActive = computed(() => route.path === "/myspace/mypage");
+</script>
 
 <style scoped>
 @import "@/styles/neon.css";

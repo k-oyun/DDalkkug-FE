@@ -38,10 +38,11 @@ const handleChangePwd = async () => {
 </script>
 
 <template>
-  <div class="flex w-full justify-end">
+  <div class="h-screen w-full justify-center overflow-y-hidden">
     <div
       v-if="isModalOn"
       class="absolute z-50 flex h-screen w-full flex-col items-center justify-center"
+      @click="isModalOn = false"
     >
       <div
         class="flex h-[300px] w-[500px] flex-col items-center justify-center rounded-[10px] border-1 bg-[#030015] text-white"
@@ -51,6 +52,7 @@ const handleChangePwd = async () => {
             inset 0 0 5px #f148fb,
             inset 0 0 10px #f148fb;
         "
+        @click.stop=""
       >
         <button
           v-if="!isEmailVerifyOn"
@@ -84,10 +86,10 @@ const handleChangePwd = async () => {
     </div>
 
     <div
-      class="flex h-screen w-[1200px] flex-col items-center justify-center bg-[#030015] text-white"
+      class="flex h-screen flex-col items-center justify-center bg-[#030015] text-white"
     >
       <div
-        class="flex h-[400px] w-[600px] flex-col items-center justify-center rounded-[10px] border-1 bg-black/70"
+        class="flex flex-col items-center justify-center rounded-[10px] border-1 bg-black/70 p-20"
         style="
           box-shadow:
             0 0 5px 3px #f148fb,
@@ -96,7 +98,7 @@ const handleChangePwd = async () => {
         "
       >
         <button
-          class="mb-[30px] h-[40px] w-[100px] cursor-pointer flex-col rounded-[10px] border-1 bg-black/70 text-[12px] transition-all duration-500 ease-in-out"
+          class="mb-[30px] cursor-pointer flex-col rounded-[10px] border-1 bg-black/70 px-6 py-3 text-[12px] transition-all duration-500 ease-in-out"
           style="
             box-shadow:
               0 0 5px 3px #ff0000,
@@ -108,7 +110,7 @@ const handleChangePwd = async () => {
         </button>
 
         <button
-          class="h-[40px] w-[100px] cursor-pointer flex-col rounded-[10px] border-1 bg-black/70 text-[12px] transition-all duration-500 ease-in-out"
+          class="cursor-pointer flex-col rounded-[10px] border-1 bg-black/70 px-6 py-4 text-[12px] transition-all duration-500 ease-in-out"
           style="
             box-shadow:
               0 0 5px 3px #00aa00,

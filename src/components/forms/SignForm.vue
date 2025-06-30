@@ -42,6 +42,9 @@
       </label>
 
       <BaseInput v-model="name"></BaseInput>
+      <label class="text-md/6 block pt-1 pl-3 font-medium text-white">
+        {{ name === "" ? "닉네임을 입력하세요" : "" }}
+      </label>
     </div>
 
     <BaseButton @click="handleClick" :disabled="buttonDisable">

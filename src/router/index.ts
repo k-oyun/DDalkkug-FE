@@ -14,11 +14,16 @@ import PostCreate from "../pages/PostCreate.vue";
 import { useAccountStore } from "@/stores/Account.js";
 import MyGroup from "@/components/MyGroup.vue";
 import MySpace from "@/pages/MySpace.vue";
+import MyPage from "@/components/MyPage.vue";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", name: "Home", component: Home },
-  { path: "/main", name: "Main", component: Main },
-  { path: "/", name: "Home", component: Home },
+  {
+    path: "/main",
+    name: "Main",
+    component: Main,
+    meta: { requiresAuth: true },
+  },
   {
     path: "/login",
     name: "login",
@@ -57,7 +62,46 @@ const routes: RouteRecordRaw[] = [
     path: "/myspace",
     name: "MySpace",
     component: MySpace,
-    children: [{ path: "", name: "MyGroup", component: MyGroup }],
+    meta: { requiresAuth: true },
+    children: [
+      {
+        path: "",
+        name: "MyGroup",
+        component: MyGroup,
+        meta: { requiresAuth: true },
+      },
+      {
+        path: "mypage",
+        name: "Mypage",
+        component: MyPage,
+        meta: { requiresAuth: true },
+      },
+    ],
+  },
+
+  {
+    path: "/posts",
+    name: "Posts",
+    component: PostList,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/posts/:id",
+    name: "PostDetail",
+    component: PostDetail,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/posts/new",
+    name: "PostCreate",
+    component: PostCreate,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/posts/:id/edit",
+    name: "PostEdit",
+    component: PostCreate,
+    meta: { requiresAuth: true },
   },
   { path: "/posts", name: "Posts", component: PostList },
   { path: "/posts/:id", name: "PostDetail", component: PostDetail },
@@ -68,6 +112,16 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+// 로그인이 안될시에 로그인페이지로 돌아가게함
+router.beforeEach((to, from, next) => {
+  const isLoggedIn = localStorage.getItem("accessToken") != null;
+  if (to.meta.requiresAuth && !isLoggedIn) {
+    next("login");
+  } else {
+    next();
+  }
 });
 
 export default router;
