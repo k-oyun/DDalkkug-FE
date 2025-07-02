@@ -11,6 +11,7 @@ export const useGroupModalStore = defineStore("group-modal", {
     groupName: "",
     description: "",
     totalPaid: 0,
+    memberCount: 0,
   }),
   actions: {
     setIsOpen(bool) {
@@ -39,6 +40,9 @@ export const useGroupModalStore = defineStore("group-modal", {
     },
     setTotalPaid(totalPaid) {
       this.totalPaid = totalPaid;
+    },
+    setMemberCount(memberCount) {
+      this.memberCount = memberCount;
     },
   },
   getters: {

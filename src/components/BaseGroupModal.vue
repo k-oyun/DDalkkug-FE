@@ -35,6 +35,7 @@
                     class="text-sm"
                     @click="
                       async () => {
+                        innerModalState = false;
                         groupModalStore.setIsOpen(false);
                         await deleteGroupApi();
                       }
@@ -66,7 +67,7 @@
             :name="groupModalStore.groupName"
             :description="groupModalStore.description"
             :totalPaid="groupModalStore.totalPaid"
-            :memberCount="String(3)"
+            :memberCount="groupModalStore.memberCount"
           />
           <div class="mb-2 text-center text-xl">
             그룹장 : {{ leader.nickname }}
@@ -174,8 +175,18 @@
                 class="md:text-md min-w-[90px] text-xs"
                 @click="
                   async () => {
-                    // later : api 수정필요
-                    await groupEnter(1, 1);
+                    // later : api 수정필요 [완]
+                    // 그룹 가입 시행
+                    const res = await groupEnter(groupModalStore.getGroupId);
+                    if (res.data.status == 200) {
+                      console.log('그룹 가입 성공');
+                    } else {
+                      console.log('그룹 가입 실패');
+                    }
+                    //
+
+                    // 모달 닫기
+                    groupModalStore.setIsOpen(false);
                   }
                 "
               >
@@ -317,4 +328,8 @@ onMounted(() => {
 <style scoped>
 @import "@/styles/neon.css";
 @import "@/style.css";
+
+* {
+  overflow: visible;
+}
 </style>

@@ -42,9 +42,8 @@ export const useGroupApi = () => {
   };
 
   // 그룹 가입
-  const groupEnter = async (groupId, memberId) => {
-    console.log("그룹가입");
-    return await axios.post(`/group-member/${groupId}/members/${memberId}`);
+  const groupEnter = async (groupId) => {
+    return await axios.post(`/group-member/${groupId}/members`);
   };
   return {
     groupInfo,

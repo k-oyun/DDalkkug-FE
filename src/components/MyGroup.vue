@@ -50,7 +50,7 @@
               :name="group.name"
               :description="group.description"
               :totalPaid="group.totalPaid"
-              memberCount="3"
+              :memberCount="group.memberCount"
             />
           </div>
         </div>
