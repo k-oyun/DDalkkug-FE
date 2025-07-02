@@ -66,7 +66,7 @@ const props = defineProps({
   name: String,
   description: String,
   totalPaid: Number,
-  memberCount: String,
+  memberCount: Number,
 });
 
 const stageList = [

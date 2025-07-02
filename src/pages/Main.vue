@@ -107,4 +107,8 @@ watch(groupId, async () => {
   background-size: cover;
   background-position: center;
 }
+
+* {
+  overflow: hidden;
+}
 </style>

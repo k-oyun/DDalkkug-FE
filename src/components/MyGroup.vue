@@ -41,7 +41,7 @@
     <div class="mt-5 space-y-6">
       <div v-if="!loading">
         <div
-          class="grid max-w-full grid-cols-1 items-center gap-6 transition-[max-width] duration-200 ease-in-out md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3"
+          class="grid max-w-full grid-cols-1 gap-6 transition-[max-width] duration-200 ease-in-out md:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-3"
         >
           <div v-for="group in groupDatas" :key="group.id">
             <BaseGroupCard
