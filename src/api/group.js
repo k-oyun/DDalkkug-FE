@@ -28,7 +28,7 @@ export const useGroupApi = () => {
 
   // (그룹장만 가능) groupId를 가지고 그룹삭제
   const deleteGroup = async (groupId) => {
-    return await axios.get(`/group-info/id/${groupId}`);
+    return await axios.delete(`/group-info/id/${groupId}`);
   };
 
   // (그룹장만 가능) 멤버 삭제
@@ -45,6 +45,11 @@ export const useGroupApi = () => {
   const groupEnter = async (groupId) => {
     return await axios.post(`/group-member/${groupId}/members`);
   };
+
+  // 그룹 탈퇴
+  const groupExit = async (groupId) => {
+    return await axios.delete(`/group-member/quit/${groupId}`);
+  };
   return {
     groupInfo,
     myGroups,
@@ -55,6 +60,7 @@ export const useGroupApi = () => {
     deleteGroupMember,
     groupCreate,
     groupEnter,
+    groupExit,
   };
 };
 export default useGroupApi;

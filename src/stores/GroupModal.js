@@ -4,6 +4,7 @@ export const useGroupModalStore = defineStore("group-modal", {
   state: () => ({
     isOpen: false,
     isGroupDelete: false,
+    isNeedGroupRefresh: false,
     modalState: 0,
     isModify: false,
     groupId: -1,
@@ -19,6 +20,9 @@ export const useGroupModalStore = defineStore("group-modal", {
     },
     setIsGroupDelete(bool) {
       this.isGroupDelete = bool;
+    },
+    setIsNeedGroupRefresh(bool) {
+      this.isNeedGroupRefresh = bool;
     },
     setModalState(state) {
       this.modalState = state;

@@ -38,6 +38,8 @@
                         innerModalState = false;
                         groupModalStore.setIsOpen(false);
                         await deleteGroupApi();
+
+                        groupModalStore.setIsNeedGroupRefresh(true);
                       }
                     "
                   >
@@ -143,6 +145,7 @@
                 class="md:text-md min-w-[90px] text-xs"
                 @click="
                   () => {
+                    // 그룹 삭제 확인창 표시
                     innerModalState = true;
                   }
                 "
@@ -187,10 +190,41 @@
 
                     // 모달 닫기
                     groupModalStore.setIsOpen(false);
+
+                    // 가입했으니 그룹 목록 다시 불러오기
+                    groupModalStore.setIsNeedGroupRefresh(true);
                   }
                 "
               >
                 그룹 가입
+              </BaseButton>
+            </div>
+
+            <div v-if="groupModalStore.modalState == 0">
+              <BaseButton
+                neonColor="#ff0000"
+                hoverColor="#cc0000"
+                class="md:text-md min-w-[90px] text-xs"
+                @click="
+                  async () => {
+                    // 그룹 탈퇴 시행
+                    const res = await groupExit(groupModalStore.getGroupId);
+                    if (res.data.status == 200) {
+                      console.log('그룹 탈퇴 성공');
+                    } else {
+                      console.log('그룹 탈퇴 실패');
+                    }
+                    //
+
+                    // 모달 닫기
+                    groupModalStore.setIsOpen(false);
+
+                    // 탈퇴했으니 그룹 목록 다시 불러오기
+                    groupModalStore.setIsNeedGroupRefresh(true);
+                  }
+                "
+              >
+                그룹 탈퇴
               </BaseButton>
             </div>
 
@@ -221,7 +255,8 @@ import { toRaw } from "vue";
 
 import BaseGroupCardContent from "./BaseGroupCardContent.vue";
 
-const { members, deleteGroup, deleteGroupMember, groupEnter } = useGroupApi();
+const { members, deleteGroup, deleteGroupMember, groupEnter, groupExit } =
+  useGroupApi();
 const groupModalStore = useGroupModalStore();
 
 const innerModalState = ref(false);
@@ -269,6 +304,11 @@ const deleteMembersAction = async () => {
     // later : 캡션 지우기
     await deleteGroupMember(groupModalStore.getGroupId, id);
   });
+
+  // 멤버수 일단 로컬 상으로 줄임
+  groupModalStore.setMemberCount(
+    groupModalStore.memberCount - checkedItem.value.length,
+  );
 };
 
 const dummyList = ref([]);
@@ -309,7 +349,7 @@ watch(
 );
 
 const deleteGroupApi = async () => {
-  console.log("그룹 삭제 시행!");
+  console.log("groupId: " + groupModalStore.getGroupId + "그룹 삭제 시행!");
   // later : 캡션 제거
   await deleteGroup(groupModalStore.getGroupId);
 };
