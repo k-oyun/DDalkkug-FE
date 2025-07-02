@@ -57,10 +57,15 @@ const setModal = () => {
   groupModalStore.setGroupName(props.name);
   groupModalStore.setDescription(props.description);
   groupModalStore.setTotalPaid(props.totalPaid);
+  groupModalStore.setMemberCount(props.memberCount);
 };
 </script>
 
 <style scoped>
 @import "@/styles/neon.css";
 @import "@/style.css";
+
+* {
+  overflow: visible;
+}
 </style>

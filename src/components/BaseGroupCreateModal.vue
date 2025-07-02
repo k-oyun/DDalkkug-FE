@@ -30,9 +30,11 @@
 <script setup>
 import { ref } from "vue";
 import { useGroupCreateModalStore } from "@/stores/GroupCreateModal.js";
+import { useGroupModalStore } from "@/stores/GroupModal.js";
 import { useGroupApi } from "@/api/group.js";
 
 const groupCreateModalStore = useGroupCreateModalStore();
+const groupModalStore = useGroupModalStore();
 
 const { groupCreate } = useGroupApi();
 
@@ -44,7 +46,9 @@ const sendCreate = async () => {
   groupName.value = "";
   groupDescription.value = "";
   groupCreateModalStore.setIsOpen(false);
-  console.log("성공");
+  console.log("그룹 생성 성공");
+
+  groupModalStore.setIsNeedGroupRefresh(true);
 };
 </script>
 

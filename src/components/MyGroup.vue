@@ -50,7 +50,7 @@
               :name="group.name"
               :description="group.description"
               :totalPaid="group.totalPaid"
-              memberCount="3"
+              :memberCount="group.memberCount"
             />
           </div>
         </div>
@@ -94,6 +94,8 @@ const buttonState = ref(0);
 
 const loading = ref(false);
 
+const groupState = ref(0);
+
 const change = async (state) => {
   buttonState.value = state;
 
@@ -117,6 +119,38 @@ const change = async (state) => {
   groupDatas.value = res.data.data;
   loading.value = false;
 };
+
+// 그룹 목록을 다시 불러와야할 때 처리하는 메소드
+watch(
+  () => groupModalStore.isNeedGroupRefresh,
+  async (isNeedGroupRefresh) => {
+    // true가 아닐때는 바로 반환
+    if (isNeedGroupRefresh === false) return;
+
+    const modalState = groupModalStore.modalState;
+    console.log("그룹 목록 새로고침 시행");
+    let res;
+    loading.value = true;
+    switch (modalState) {
+      case 0:
+        res = await myGroups();
+        break;
+      case 1:
+        res = await notJoinedGroups();
+        break;
+      case 2:
+        res = await myLeadingGroups();
+        break;
+
+      default:
+        console.log("알맞는 그룹 상태가 없습니다");
+    }
+
+    groupDatas.value = res.data.data;
+    loading.value = false;
+    groupModalStore.setIsNeedGroupRefresh(false);
+  },
+);
 
 // 모달에서 그룹을 삭제했을 경우 그룹 리스트를 다시 불러옴
 watch(
