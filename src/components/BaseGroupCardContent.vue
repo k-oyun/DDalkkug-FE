@@ -43,6 +43,7 @@
           style="color: var(--neon-soju-color)"
         >
           {{ totalPaid.toLocaleString() }}
+          <span>원</span>
         </div>
       </div>
     </div>

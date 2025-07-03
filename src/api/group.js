@@ -48,7 +48,7 @@ export const useGroupApi = () => {
 
   // 그룹 탈퇴
   const groupExit = async (groupId) => {
-    return await axios.delete(`/group-member/quit/${groupId}`);
+    return await axios.delete(`/group-member/quit/${groupId}/`);
   };
   return {
     groupInfo,

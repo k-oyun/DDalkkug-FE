@@ -162,8 +162,11 @@
                 @click="
                   () => {
                     groupModalStore.setIsModify(!groupModalStore.isModify);
+                    // false 그룹 수정 상태가 되었을 때
                     if (!groupModalStore.isModify) {
                       checkedItem = [];
+                      // 페이지 리로딩
+                      groupModalStore.setIsNeedGroupRefresh(true);
                     }
                   }
                 "
@@ -211,7 +214,6 @@
                     const res = await groupExit(groupModalStore.getGroupId);
                     if (res.data.status == 200) {
                       console.log('그룹 탈퇴 성공');
-                      alert('그룹 탈퇴를 할 수 없습니다!');
                     } else {
                       console.log('그룹 탈퇴 실패');
                     }
