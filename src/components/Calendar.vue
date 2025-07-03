@@ -203,6 +203,7 @@ const nextMonth = () => {
 };
 const selectDate = (day) => {
   selectedDate.value = day;
+  router.push(`/posts?year=${year.value}&month=${month.value + 1}&day=${day}`);
 };
 const isToday = (day) => {
   return (
@@ -213,6 +214,7 @@ const isToday = (day) => {
 };
 const getDayData = (day) => {
   const formatted = `${year.value}-${String(month.value + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
   return calendarData.value.find((item) => item.date === formatted);
 };
 
