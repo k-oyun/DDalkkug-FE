@@ -86,6 +86,12 @@ const routes: RouteRecordRaw[] = [
     meta: { requiresAuth: true },
   },
   {
+    path: "/posts/date/:date",
+    name: "PostsDate",
+    component: PostList,
+    meta: { requiresAuth: true },
+  },
+  {
     path: "/posts/:id",
     name: "PostDetail",
     component: PostDetail,
@@ -103,10 +109,10 @@ const routes: RouteRecordRaw[] = [
     component: PostCreate,
     meta: { requiresAuth: true },
   },
-  { path: "/posts", name: "Posts", component: PostList },
-  { path: "/posts/:id", name: "PostDetail", component: PostDetail },
-  { path: "/posts/new", name: "PostCreate", component: PostCreate },
-  { path: "/posts/:id/edit", name: "PostEdit", component: PostCreate },
+  // { path: "/posts", name: "Posts", component: PostList },
+  // { path: "/posts/:id", name: "PostDetail", component: PostDetail },
+  // { path: "/posts/new", name: "PostCreate", component: PostCreate },
+  // { path: "/posts/:id/edit", name: "PostEdit", component: PostCreate },
 ];
 
 const router = createRouter({

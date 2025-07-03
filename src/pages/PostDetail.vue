@@ -4,15 +4,9 @@
       v-if="post"
       class="neon-border mx-auto max-w-3xl rounded-xl bg-gray-900/95 p-3 shadow-lg sm:p-8"
     >
-      <div class="flex items-center justify-end">
-        <BaseButton
-          class="text-sm sm:text-lg"
-          @click="
-            () => {
-              router.push('/posts');
-            }
-          "
-        >
+      <div class="flex items-center justify-between">
+        <BaseButton @click="router.back()">뒤로가기</BaseButton>
+        <BaseButton class="text-sm sm:text-lg" @click="router.push('/posts')">
           전체 기록 보기
         </BaseButton>
       </div>
