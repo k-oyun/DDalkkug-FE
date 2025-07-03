@@ -11,28 +11,23 @@
             filter: drop-shadow(0 0 3px #00f0ff) drop-shadow(0 0 5px #00f0ff);
           "
         >
-          전체 게시글
+          게시글 목록
         </h1>
       </div>
 
       <div class="flex justify-between">
         <BaseButton
           class="min-w-[100px] px-5 text-sm sm:text-lg"
-          @click="
-            () => {
-              router.push('/main');
-            }
-          "
+          @click="() => router.push('/main')"
         >
           홈
         </BaseButton>
+        <BaseButton @click="() => router.push({ path: '/posts', query: {} })">
+          전체 게시글
+        </BaseButton>
         <BaseButton
           class="min-w-[100px] px-5 text-sm sm:text-lg"
-          @click="
-            () => {
-              router.push('/posts/new');
-            }
-          "
+          @click="() => router.push('/posts/new')"
         >
           글 작성
         </BaseButton>
@@ -46,7 +41,6 @@
           :to="`/posts/${post.id}`"
           class="neon-border flex flex-col justify-between gap-6 overflow-hidden rounded-lg bg-gray-800/70 p-4 transition hover:bg-gray-700/90 sm:p-6 md:flex-row"
         >
-          <!-- 텍스트 콘텐츠 -->
           <div class="ml-3 flex-1 space-y-3">
             <p
               class="text-lg font-semibold"
@@ -145,7 +139,6 @@
             </div>
           </div>
 
-          <!-- 이미지 -->
           <div
             v-if="post.photoUrl"
             class="mr-3 aspect-square w-full flex-shrink-0 self-center md:w-40 md:self-start"
@@ -159,10 +152,8 @@
         </router-link>
       </div>
 
-      <!-- 무한 스크롤 감지 영역 -->
       <div ref="observerTarget" class="h-10"></div>
 
-      <!-- 스크롤 위로 버튼 -->
       <button
         @click="scrollToTop"
         class="fixed right-6 bottom-6 flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-pink-500 text-xl text-white shadow-md transition duration-200 ease-in-out hover:scale-105 hover:bg-pink-600"
@@ -180,12 +171,19 @@ import { ref, onMounted, watch, computed } from "vue";
 import axios from "axios";
 import BaseButton from "../components/BaseButton.vue";
 import router from "../router";
+import { useRoute } from "vue-router";
 
 const posts = ref([]);
 const visibleCount = ref(5);
 const selectedType = ref("전체");
 const observerTarget = ref(null);
 const groupMap = ref({});
+
+const route = useRoute();
+
+const year = route.query.year;
+const month = route.query.month;
+const day = route.query.day;
 
 const fetchPosts = async () => {
   try {
@@ -203,6 +201,31 @@ const fetchPosts = async () => {
     );
   } catch (err) {
     console.error("불러오기 실패", err);
+  }
+};
+
+const fetchDayPosts = async () => {
+  try {
+    const token = localStorage.getItem("accessToken");
+
+    // 쿼리 스트링 조합
+    const queryString = `?year=${year}&month=${month}&day=${day}`;
+
+    const res = await axios.get(
+      `https://api.ddalkkug.kro.kr/api/v1/calendar-entries/day${queryString}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    posts.value = res.data.data.sort(
+      (a, b) => new Date(b.drinkingDate) - new Date(a.drinkingDate),
+    );
+  } catch (err) {
+    console.error("게시글 불러오기 실패", err);
+    alert("게시글 정보를 불러오는 데 실패했습니다.");
+    router.push("/main");
   }
 };
 
@@ -228,24 +251,12 @@ const fetchGroups = async () => {
   }
 };
 
-const filteredPosts = computed(() => {
-  if (selectedType.value === "전체") return posts.value;
-  return posts.value.filter((post) =>
-    post.drinks.some((drink) => drink.type === selectedType.value),
-  );
-});
-
-const visiblePosts = computed(() =>
-  filteredPosts.value.slice(0, visibleCount.value),
-);
+const visiblePosts = computed(() => posts.value.slice(0, visibleCount.value));
 
 // 무한 스크롤 로직
 const setupObserver = () => {
   const observer = new IntersectionObserver((entries) => {
-    if (
-      entries[0].isIntersecting &&
-      visibleCount.value < filteredPosts.value.length
-    ) {
+    if (entries[0].isIntersecting && visibleCount.value < posts.value.length) {
       visibleCount.value += 5;
     }
   });
@@ -259,10 +270,26 @@ const scrollToTop = () => {
   }
 };
 
+watch(
+  () => route.query,
+  () => {
+    if (route.query.year && route.query.month && route.query.day) {
+      fetchDayPosts();
+    } else {
+      fetchPosts();
+    }
+  },
+);
+
 onMounted(() => {
-  fetchPosts();
   fetchGroups();
   setupObserver();
+
+  if (year && month && day) {
+    fetchDayPosts();
+  } else {
+    fetchPosts();
+  }
 });
 
 watch(selectedType, () => {
@@ -303,14 +330,12 @@ watch(selectedType, () => {
       0 0 12px #3b82f6,
       0 0 18px #3b82f6;
   }
-
   50% {
     box-shadow:
       0 0 3px #3b82f6,
       0 0 6px #3b82f6,
       0 0 9px #3b82f6;
   }
-
   100% {
     box-shadow:
       0 0 6px #3b82f6,
