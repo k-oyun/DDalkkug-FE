@@ -12,6 +12,13 @@
     onmouseout="this.style.boxShadow='0 0 5px 3px #00aa00, inset 0 0 5px #00aa00, inset 0 0 10px #00aa00'"
   >
     <div
+      v-if="isCalendarLoading"
+      class="flex h-full w-full items-center justify-center text-[16px] sm:text-[16px] md:text-[16px] lg:text-[30px] xl:text-[30px]"
+    >
+      Loading...
+    </div>
+    <div
+      v-else
       class="calendar-header mb-[0px] flex items-center justify-between p-[0.5rem] pr-[15px] pl-[15px] font-bold"
     >
       <button
@@ -187,9 +194,12 @@ const blankDays = computed(() => {
 
 const prevMonth = () => {
   current.value = new Date(year.value, month.value - 1, 1);
+  isCalendarLoading.value = true;
 };
 const nextMonth = () => {
   current.value = new Date(year.value, month.value + 1, 1);
+
+  isCalendarLoading.value = true;
 };
 const selectDate = (day) => {
   selectedDate.value = day;
@@ -211,6 +221,7 @@ const getDayData = (day) => {
 const { calendarGet, groupListGet, groupCalendarGet } = useMainApi();
 const calendarData = ref([]);
 const groups = ref([]);
+const isCalendarLoading = ref(true);
 const selectedGroup = ref("");
 watch(selectedGroup, async () => {
   const groupData = await groupCalendarGet(
@@ -225,6 +236,7 @@ watch(selectedGroup, async () => {
 watch(month, async () => {
   const res = await calendarGet(year.value, month.value + 1);
   calendarData.value = res.data.data;
+  isCalendarLoading.value = false;
 });
 
 onMounted(async () => {
@@ -232,6 +244,7 @@ onMounted(async () => {
   calendarData.value = res.data.data;
   const res2 = await groupListGet();
   groups.value = res2.data.data;
+  isCalendarLoading.value = false;
 });
 
 const emit = defineEmits(["send-group-id"]);

@@ -4,10 +4,24 @@
     id="bg"
   >
     <Calendar @send-group-id="getGroupId" />
+
     <div
       class="ml-[50px] hidden h-[670px] w-[450px] min-w-[450px] flex-col items-center text-white sm:hidden md:hidden lg:hidden xl:flex 2xl:flex 2xl:h-[676px]"
     >
       <div
+        v-if="isPriceLoading"
+        class="xl:text-[30px]transition-all mt-[3px] flex h-[150px] w-[400px] cursor-pointer items-center justify-center rounded-[10px] border-1 bg-black/70 text-[16px] duration-500 ease-in-out sm:text-[16px] md:text-[16px] lg:text-[30px]"
+        style="
+          box-shadow:
+            0 0 5px 3px #00aa00,
+            inset 0 0 5px #00aa00,
+            inset 0 0 10px #00aa00;
+        "
+      >
+        Loading...
+      </div>
+      <div
+        v-else
         class="mt-[3px] flex h-[150px] w-[400px] cursor-pointer flex-col rounded-[10px] border-1 bg-black/70 p-10 transition-all duration-500 ease-in-out"
         style="
           box-shadow:
@@ -78,6 +92,7 @@ const Prices = {
   weekPrice: ref(0),
   totalPaid: ref(0),
 };
+const isPriceLoading = ref(true);
 onMounted(async () => {
   const res = await PriceGet(
     year.value,
@@ -86,6 +101,7 @@ onMounted(async () => {
   );
   Prices.weekPrice.value = res.data.data.weekPrice.toLocaleString();
   Prices.totalPaid.value = res.data.data.totalPaid.toLocaleString();
+  isPriceLoading.value = false;
 });
 
 watch(groupId, async () => {
@@ -98,6 +114,7 @@ watch(groupId, async () => {
   console.log(res);
   Prices.weekPrice.value = res.data.data.weekPrice.toLocaleString();
   Prices.totalPaid.value = res.data.data.groupTotalPaid.toLocaleString();
+  isPriceLoading.value = false;
 });
 </script>
 
