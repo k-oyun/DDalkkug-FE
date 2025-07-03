@@ -18,15 +18,7 @@
       <div class="flex justify-between">
         <BaseButton
           class="min-w-[100px] px-4 py-2 text-sm sm:text-lg"
-          @click="
-            () => {
-              if (isEdit) {
-                router.push(`/posts/${postId}`);
-              } else {
-                router.push('/posts');
-              }
-            }
-          "
+          @click="router.back()"
         >
           취소
         </BaseButton>
