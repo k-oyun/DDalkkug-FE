@@ -4,6 +4,7 @@
     id="bg"
   >
     <Calendar @send-group-id="getGroupId" />
+
     <div
       class="ml-[50px] hidden h-[670px] w-[450px] min-w-[450px] flex-col items-center text-white sm:hidden md:hidden lg:hidden xl:flex 2xl:flex 2xl:h-[676px]"
     >
@@ -27,7 +28,12 @@
               0 0 8px #00aa00;
           "
         >
-          Total Price : {{ Prices.totalPaid }} 원
+          Total Price :
+          {{
+            Prices.totalPaid === null
+              ? "Loading..."
+              : Prices.totalPaid.value + "원"
+          }}
         </span>
         <span
           class="mt-[10px] text-[20px]"
@@ -75,8 +81,8 @@ const getGroupId = (id) => {
   groupId.value = id;
 };
 const Prices = {
-  weekPrice: ref(0),
-  totalPaid: ref(0),
+  weekPrice: ref(null),
+  totalPaid: ref(null),
 };
 onMounted(async () => {
   const res = await PriceGet(
