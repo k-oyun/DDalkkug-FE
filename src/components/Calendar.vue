@@ -221,6 +221,12 @@ watch(selectedGroup, async () => {
   calendarData.value = groupData.data.data;
   send();
 });
+
+watch(month, async () => {
+  const res = await calendarGet(year.value, month.value + 1);
+  calendarData.value = res.data.data;
+});
+
 onMounted(async () => {
   const res = await calendarGet(year.value, month.value + 1);
   calendarData.value = res.data.data;
@@ -314,5 +320,9 @@ const send = () => {
 
 #myPage {
   animation: logoFlicker 1s infinite;
+}
+
+* {
+  overflow: hidden;
 }
 </style>
